@@ -11,31 +11,43 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+    <string>Create New Document</string>
+  </property>
+  <property name="minimumSize">
+    <size>
+     <width>920</width>
+     <height>680</height>
+    </size>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="spacing">
-    <number>4</number>
+     <number>10</number>
    </property>
    <property name="leftMargin">
-    <number>8</number>
+     <number>12</number>
    </property>
    <property name="topMargin">
-    <number>8</number>
+     <number>12</number>
    </property>
    <property name="rightMargin">
-    <number>8</number>
+     <number>12</number>
    </property>
    <property name="bottomMargin">
-    <number>8</number>
+     <number>12</number>
    </property>
    <item>
     <widget class="QTabWidget" name="tabWidget">
+         <property name="accessibleName">
+            <string>Document creation modes</string>
+         </property>
      <property name="currentIndex">
       <number>0</number>
      </property>
      <property name="tabBarAutoHide">
-      <bool>true</bool>
+            <bool>false</bool>
+         </property>
+         <property name="documentMode">
+            <bool>true</bool>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -43,10 +55,10 @@
       </attribute>
       <layout class="QHBoxLayout" name="horizontalLayout_7">
        <property name="spacing">
-        <number>4</number>
+                <number>12</number>
        </property>
        <property name="leftMargin">
-        <number>8</number>
+                <number>8</number>
        </property>
        <property name="topMargin">
         <number>8</number>
@@ -57,10 +69,13 @@
        <property name="bottomMargin">
         <number>8</number>
        </property>
+         <property name="stretch">
+          <string>2,3</string>
+         </property>
        <item>
         <layout class="QVBoxLayout" name="verticalLayout_5">
          <property name="spacing">
-          <number>4</number>
+             <number>8</number>
          </property>
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_8">
@@ -89,6 +104,9 @@
            </item>
            <item>
             <widget class="QComboBox" name="comboSortSizes">
+                         <property name="accessibleName">
+                            <string>Sort page preset list</string>
+                         </property>
              <property name="toolTip">
               <string>Sort page list</string>
              </property>
@@ -97,7 +115,17 @@
           </layout>
          </item>
          <item>
-          <widget class="PageSizeList" name="listPageFormats"/>
+          <widget class="PageSizeList" name="listPageFormats">
+           <property name="accessibleName">
+            <string>Page preset list</string>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>280</width>
+             <height>0</height>
+            </size>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -105,10 +133,16 @@
         <widget class="QScrollArea" name="scrollArea">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-           <horstretch>0</horstretch>
+                     <horstretch>1</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+                 <property name="minimumSize">
+                    <size>
+                     <width>420</width>
+                     <height>0</height>
+                    </size>
+                 </property>
          <property name="frameShape">
           <enum>QFrame::Shape::NoFrame</enum>
          </property>
@@ -129,16 +163,16 @@
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_7">
            <property name="spacing">
-            <number>0</number>
+                        <number>8</number>
            </property>
            <property name="leftMargin">
-            <number>0</number>
+                        <number>4</number>
            </property>
            <property name="topMargin">
-            <number>0</number>
+                        <number>4</number>
            </property>
            <property name="rightMargin">
-            <number>0</number>
+                        <number>4</number>
            </property>
            <property name="bottomMargin">
             <number>8</number>
@@ -187,7 +221,7 @@
              <widget class="QWidget" name="page">
               <layout class="QVBoxLayout" name="verticalLayout_6">
                <property name="spacing">
-                <number>4</number>
+                                <number>8</number>
                </property>
                <property name="leftMargin">
                 <number>8</number>
@@ -203,8 +237,18 @@
                </property>
                <item>
                 <layout class="QGridLayout" name="gridLayout">
+                                 <property name="horizontalSpacing">
+                                    <number>8</number>
+                                 </property>
+                                 <property name="verticalSpacing">
+                                    <number>8</number>
+                                 </property>
                  <item row="0" column="3">
-                  <widget class="QComboBox" name="unitOfMeasureComboBox"/>
+                                    <widget class="QComboBox" name="unitOfMeasureComboBox">
+                                     <property name="accessibleName">
+                                        <string>Measurement unit</string>
+                                     </property>
+                                    </widget>
                  </item>
                  <item row="0" column="4">
                   <spacer name="horizontalSpacer_8">
@@ -236,10 +280,18 @@
                   </spacer>
                  </item>
                  <item row="1" column="1">
-                  <widget class="ScrSpinBox" name="heightSpinBox"/>
+                  <widget class="ScrSpinBox" name="heightSpinBox">
+                   <property name="accessibleName">
+                    <string>Page height</string>
+                   </property>
+                  </widget>
                  </item>
                  <item row="0" column="1">
-                  <widget class="ScrSpinBox" name="widthSpinBox"/>
+                  <widget class="ScrSpinBox" name="widthSpinBox">
+                   <property name="accessibleName">
+                    <string>Page width</string>
+                   </property>
+                  </widget>
                  </item>
                  <item row="1" column="0">
                   <widget class="QLabel" name="label_2">
@@ -271,6 +323,9 @@
                </item>
                <item>
                 <layout class="QHBoxLayout" name="horizontalLayout_12" stretch="0,0,0,0,0,1">
+                 <property name="spacing">
+                  <number>8</number>
+                 </property>
                  <item>
                   <widget class="FormWidget" name="pageCountLabel">
                    <property name="sizePolicy">
@@ -296,7 +351,11 @@
                      <number>0</number>
                     </property>
                     <item>
-                     <widget class="QSpinBox" name="pageCountSpinBox"/>
+                     <widget class="QSpinBox" name="pageCountSpinBox">
+                      <property name="accessibleName">
+                       <string>Number of pages</string>
+                      </property>
+                     </widget>
                     </item>
                    </layout>
                   </widget>
@@ -359,6 +418,9 @@
                     </item>
                     <item>
                      <widget class="QToolButton" name="buttonVertical">
+                      <property name="accessibleName">
+                       <string>Portrait orientation</string>
+                      </property>
                       <property name="text">
                        <string/>
                       </property>
@@ -375,6 +437,9 @@
                     </item>
                     <item>
                      <widget class="QToolButton" name="buttonHorizontal">
+                      <property name="accessibleName">
+                       <string>Landscape orientation</string>
+                      </property>
                       <property name="text">
                        <string/>
                       </property>
@@ -506,7 +571,7 @@
              <widget class="QWidget" name="page_2">
               <layout class="QVBoxLayout" name="verticalLayout_8">
                <property name="spacing">
-                <number>4</number>
+                                <number>8</number>
                </property>
                <property name="leftMargin">
                 <number>8</number>
@@ -535,7 +600,7 @@
              <widget class="QWidget" name="page_3">
               <layout class="QVBoxLayout" name="verticalLayout_9">
                <property name="spacing">
-                <number>4</number>
+                                <number>8</number>
                </property>
                <property name="leftMargin">
                 <number>8</number>
@@ -567,7 +632,7 @@
              <widget class="QWidget" name="page_4">
               <layout class="QVBoxLayout" name="verticalLayout_10">
                <property name="spacing">
-                <number>4</number>
+                                <number>8</number>
                </property>
                <property name="leftMargin">
                 <number>8</number>
@@ -583,6 +648,9 @@
                </property>
                <item>
                 <widget class="QCheckBox" name="autoTextFrame">
+                 <property name="accessibleName">
+                  <string>Automatic text frame</string>
+                 </property>
                  <property name="text">
                   <string>&amp;Automatic Text Frame</string>
                  </property>
@@ -695,6 +763,9 @@
              </property>
              <item>
               <widget class="QCheckBox" name="startDocSetup">
+                    <property name="accessibleName">
+                     <string>Open document settings after creation</string>
+                    </property>
                <property name="text">
                 <string>Show Document Settings After Creation</string>
                </property>
@@ -727,7 +798,7 @@
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <property name="spacing">
-        <number>4</number>
+                <number>8</number>
        </property>
        <property name="leftMargin">
         <number>8</number>
@@ -757,7 +828,7 @@
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <property name="spacing">
-        <number>4</number>
+                <number>8</number>
        </property>
        <property name="leftMargin">
         <number>8</number>
@@ -772,7 +843,11 @@
         <number>8</number>
        </property>
        <item>
-        <widget class="QListWidget" name="recentDocListBox"/>
+        <widget class="QListWidget" name="recentDocListBox">
+         <property name="accessibleName">
+          <string>Recent documents list</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
@@ -781,18 +856,37 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <property name="spacing">
-      <number>4</number>
+            <number>10</number>
      </property>
      <property name="leftMargin">
       <number>8</number>
      </property>
+         <property name="rightMargin">
+            <number>8</number>
+         </property>
      <item>
       <widget class="QCheckBox" name="startUpDialog">
+             <property name="accessibleName">
+                <string>Do not show this dialog again</string>
+             </property>
        <property name="text">
         <string>Do not show this dialog again</string>
        </property>
       </widget>
      </item>
+         <item>
+            <spacer name="horizontalSpacerFooter">
+             <property name="orientation">
+                <enum>Qt::Orientation::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+             </property>
+            </spacer>
+         </item>
      <item>
       <widget class="QDialogButtonBox" name="buttonBox">
        <property name="orientation">
