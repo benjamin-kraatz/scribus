@@ -1,0 +1,70 @@
+{
+    "name": "Scribus Development",
+    "dockerFile": "Dockerfile",
+    
+    "features": {
+        "ghcr.io/devcontainers/features/git:1": {}
+    },
+    
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-vscode.cpptools",
+                "ms-vscode.cpptools-themes",
+                "twxs.cmake",
+                "ms-cmake-tools.cmake-tools",
+                "cheshirekow.cmake-format",
+                "eamodio.gitlens",
+                "GitHub.copilot",
+                "ms-vscode-remote.remote-containers",
+                "ms-vscode.makefile-tools",
+                "xaver.clang-format",
+                "llvm-vs-code-extensions.vscode-clangd"
+            ],
+            "settings": {
+                "C_Cpp.default.compilerPath": "/usr/bin/g++",
+                "C_Cpp.default.cStandard": "c11",
+                "C_Cpp.default.cppStandard": "c++17",
+                "C_Cpp.default.intelliSenseEngine": "Tag Parser",
+                "cmake.buildDirectory": "${workspaceFolder}/build",
+                "cmake.configureOnOpen": true,
+                "cmake.sourceDirectory": "${workspaceFolder}",
+                "editor.formatOnSave": false,
+                "[cpp]": {
+                    "editor.defaultFormatter": "ms-vscode.cpptools",
+                    "editor.formatOnSave": true
+                },
+                "[cmake]": {
+                    "editor.defaultFormatter": "cheshirekow.cmake-format"
+                },
+                "cmake.options": [
+                    "-DCMAKE_BUILD_TYPE=Debug",
+                    "-DCMAKE_CXX_COMPILER=g++",
+                    "-DCMAKE_C_COMPILER=gcc"
+                ],
+                "files.exclude": {
+                    "build/**": true,
+                    "**/*.o": true,
+                    "**/*.so": true
+                }
+            }
+        }
+    },
+    
+    "postCreateCommand": "bash .devcontainer/post-create.sh",
+    
+    "forwardPorts": [
+        8080, 8000, 3000
+    ],
+    
+    "portsAttributes": {
+        "8080": {
+            "label": "Application",
+            "onAutoForward": "ignore"
+        },
+        "8000": {
+            "label": "Documentation",
+            "onAutoForward": "ignore"
+        }
+    }
+}
