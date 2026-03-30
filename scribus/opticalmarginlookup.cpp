@@ -5,7 +5,7 @@
 #include <QFile>
 #include <QString>
 
-//#include "util_text.h"
+// #include "util_text.h"
 
 OpticalMarginLookup::OpticalMarginLookup(QObject *parent) : QObject(parent)
 {
@@ -24,38 +24,38 @@ void OpticalMarginLookup::buildDefaults()
 	 *  Latin Sans Serif
 	 ********************/
 	OpticalMarginChars latinSansSerifRules;
-	latinSansSerifRules.insert(QChar(0x0022), OpticalMarginRule(QChar(0x0022), 0.5, 0.5, SC_PERCENT));// Quotation Mark "
+	latinSansSerifRules.insert(QChar(0x0022), OpticalMarginRule(QChar(0x0022), 0.5, 0.5, SC_PERCENT));	 // Quotation Mark "
 	latinSansSerifRules.insert(QChar(0x0027), OpticalMarginRule(QChar(0x0027), 0.75, 0.75, SC_PERCENT)); // Apostrophe '
-	latinSansSerifRules.insert(QChar(0x0028), OpticalMarginRule(QChar(0x0028), 0.5, 0.5, SC_PERCENT)); // Left Parenthesis (
-	latinSansSerifRules.insert(QChar(0x0029), OpticalMarginRule(QChar(0x0029), 0.5, 0.5, SC_PERCENT)); // Right Parenthesis )
+	latinSansSerifRules.insert(QChar(0x0028), OpticalMarginRule(QChar(0x0028), 0.5, 0.5, SC_PERCENT));	 // Left Parenthesis (
+	latinSansSerifRules.insert(QChar(0x0029), OpticalMarginRule(QChar(0x0029), 0.5, 0.5, SC_PERCENT));	 // Right Parenthesis )
 	latinSansSerifRules.insert(QChar(0x002a), OpticalMarginRule(QChar(0x002a), 0.75, 0.75, SC_PERCENT)); // Asterisk *
-	latinSansSerifRules.insert(QChar(0x002c), OpticalMarginRule(QChar(0x002c), 0.0, 0.75, SC_PERCENT)); // Comma ,
-	latinSansSerifRules.insert(QChar(0x002e), OpticalMarginRule(QChar(0x002e), 0.0, 0.75, SC_PERCENT)); // Full Stop .
-	latinSansSerifRules.insert(QChar(0x002d), OpticalMarginRule(QChar(0x002d), 0.0, 0.75, SC_PERCENT)); // Hyphen-Minus -
-	latinSansSerifRules.insert(QChar(0x003a), OpticalMarginRule(QChar(0x003a), 0.0, 0.5, SC_PERCENT)); // Colon :
-	latinSansSerifRules.insert(QChar(0x003b), OpticalMarginRule(QChar(0x003b), 0.0, 0.5, SC_PERCENT)); // Semicolon ;
-	latinSansSerifRules.insert(QChar(0x005b), OpticalMarginRule(QChar(0x005b), 0.5, 0.5, SC_PERCENT)); // Left Square Bracket [
-	latinSansSerifRules.insert(QChar(0x005d), OpticalMarginRule(QChar(0x005d), 0.5, 0.5, SC_PERCENT)); // Right Square Bracket ]
+	latinSansSerifRules.insert(QChar(0x002c), OpticalMarginRule(QChar(0x002c), 0.0, 0.75, SC_PERCENT));	 // Comma ,
+	latinSansSerifRules.insert(QChar(0x002e), OpticalMarginRule(QChar(0x002e), 0.0, 0.75, SC_PERCENT));	 // Full Stop .
+	latinSansSerifRules.insert(QChar(0x002d), OpticalMarginRule(QChar(0x002d), 0.0, 0.75, SC_PERCENT));	 // Hyphen-Minus -
+	latinSansSerifRules.insert(QChar(0x003a), OpticalMarginRule(QChar(0x003a), 0.0, 0.5, SC_PERCENT));	 // Colon :
+	latinSansSerifRules.insert(QChar(0x003b), OpticalMarginRule(QChar(0x003b), 0.0, 0.5, SC_PERCENT));	 // Semicolon ;
+	latinSansSerifRules.insert(QChar(0x005b), OpticalMarginRule(QChar(0x005b), 0.5, 0.5, SC_PERCENT));	 // Left Square Bracket [
+	latinSansSerifRules.insert(QChar(0x005d), OpticalMarginRule(QChar(0x005d), 0.5, 0.5, SC_PERCENT));	 // Right Square Bracket ]
 	latinSansSerifRules.insert(QChar(0x007e), OpticalMarginRule(QChar(0x007e), 0.75, 0.75, SC_PERCENT)); // Tilde ~
 	latinSansSerifRules.insert(QChar(0x00B4), OpticalMarginRule(QChar(0x00B4), 0.75, 0.75, SC_PERCENT)); // Acute Accent
 	latinSansSerifRules.insert(QChar(0x0060), OpticalMarginRule(QChar(0x0060), 0.75, 0.75, SC_PERCENT)); // Gravis
-	latinSansSerifRules.insert(QChar(0x00ab), OpticalMarginRule(QChar(0x00ab), 0.5, 0.5, SC_PERCENT)); // Left-Pointing Double Angle Quotation Mark <<
-	latinSansSerifRules.insert(QChar(0x00bb), OpticalMarginRule(QChar(0x00bb), 0.5, 0.5, SC_PERCENT)); // Right-Pointing Double Angle Quotation Mark >>
-	latinSansSerifRules.insert(QChar(0x2010), OpticalMarginRule(QChar(0x2010), 0.0, 0.75, SC_PERCENT)); // Hyphen
-	latinSansSerifRules.insert(QChar(0x2013), OpticalMarginRule(QChar(0x2013), 0.0, 0.5, SC_PERCENT)); // En Dash
+	latinSansSerifRules.insert(QChar(0x00ab), OpticalMarginRule(QChar(0x00ab), 0.5, 0.5, SC_PERCENT));	 // Left-Pointing Double Angle Quotation Mark <<
+	latinSansSerifRules.insert(QChar(0x00bb), OpticalMarginRule(QChar(0x00bb), 0.5, 0.5, SC_PERCENT));	 // Right-Pointing Double Angle Quotation Mark >>
+	latinSansSerifRules.insert(QChar(0x2010), OpticalMarginRule(QChar(0x2010), 0.0, 0.75, SC_PERCENT));	 // Hyphen
+	latinSansSerifRules.insert(QChar(0x2013), OpticalMarginRule(QChar(0x2013), 0.0, 0.5, SC_PERCENT));	 // En Dash
 	latinSansSerifRules.insert(QChar(0x2014), OpticalMarginRule(QChar(0x2014), 0.25, 0.25, SC_PERCENT)); // Em Dash
 	latinSansSerifRules.insert(QChar(0x2018), OpticalMarginRule(QChar(0x2018), 0.75, 0.75, SC_PERCENT)); // Left Single Quotation Mark
 	latinSansSerifRules.insert(QChar(0x2019), OpticalMarginRule(QChar(0x2019), 0.75, 0.75, SC_PERCENT)); // Right Single Quotation Mark
 	latinSansSerifRules.insert(QChar(0x201a), OpticalMarginRule(QChar(0x201a), 0.75, 0.75, SC_PERCENT)); // Single Low-9 Quotation Mark
 	latinSansSerifRules.insert(QChar(0x201b), OpticalMarginRule(QChar(0x201b), 0.75, 0.75, SC_PERCENT)); // Single High-Reversed-9 Quotation Mark
-	latinSansSerifRules.insert(QChar(0x201c), OpticalMarginRule(QChar(0x201c), 0.5, 0.5, SC_PERCENT)); // Left Double Quotation Mark
-	latinSansSerifRules.insert(QChar(0x201d), OpticalMarginRule(QChar(0x201d), 0.5, 0.5, SC_PERCENT)); // Right Double Quotation Mark
-	latinSansSerifRules.insert(QChar(0x201e), OpticalMarginRule(QChar(0x201e), 0.5, 0.5, SC_PERCENT)); // Double Low-9 Quotation Mark
-	latinSansSerifRules.insert(QChar(0x201f), OpticalMarginRule(QChar(0x201f), 0.5, 0.5, SC_PERCENT)); // Double High-Reversed-9 Quotation Mark
-	latinSansSerifRules.insert(QChar(0x2032), OpticalMarginRule(QChar(0x2032), 0.0, 0.75, SC_PERCENT)); // Prime
-	latinSansSerifRules.insert(QChar(0x2033), OpticalMarginRule(QChar(0x2033), 0.0, 0.5, SC_PERCENT)); // Double Prime
-	latinSansSerifRules.insert(QChar(0x2035), OpticalMarginRule(QChar(0x2035), 0.75, 0.0, SC_PERCENT)); // Reversed Prime
-	latinSansSerifRules.insert(QChar(0x2036), OpticalMarginRule(QChar(0x2036), 0.5, 0.0, SC_PERCENT)); // Reversed Double Prime
+	latinSansSerifRules.insert(QChar(0x201c), OpticalMarginRule(QChar(0x201c), 0.5, 0.5, SC_PERCENT));	 // Left Double Quotation Mark
+	latinSansSerifRules.insert(QChar(0x201d), OpticalMarginRule(QChar(0x201d), 0.5, 0.5, SC_PERCENT));	 // Right Double Quotation Mark
+	latinSansSerifRules.insert(QChar(0x201e), OpticalMarginRule(QChar(0x201e), 0.5, 0.5, SC_PERCENT));	 // Double Low-9 Quotation Mark
+	latinSansSerifRules.insert(QChar(0x201f), OpticalMarginRule(QChar(0x201f), 0.5, 0.5, SC_PERCENT));	 // Double High-Reversed-9 Quotation Mark
+	latinSansSerifRules.insert(QChar(0x2032), OpticalMarginRule(QChar(0x2032), 0.0, 0.75, SC_PERCENT));	 // Prime
+	latinSansSerifRules.insert(QChar(0x2033), OpticalMarginRule(QChar(0x2033), 0.0, 0.5, SC_PERCENT));	 // Double Prime
+	latinSansSerifRules.insert(QChar(0x2035), OpticalMarginRule(QChar(0x2035), 0.75, 0.0, SC_PERCENT));	 // Reversed Prime
+	latinSansSerifRules.insert(QChar(0x2036), OpticalMarginRule(QChar(0x2036), 0.5, 0.0, SC_PERCENT));	 // Reversed Double Prime
 	latinSansSerifRules.insert(QChar(0x2039), OpticalMarginRule(QChar(0x2039), 0.75, 0.75, SC_PERCENT)); // Single Left-Pointing Angle Quotation Mark <
 	latinSansSerifRules.insert(QChar(0x203a), OpticalMarginRule(QChar(0x203a), 0.75, 0.75, SC_PERCENT)); // Single Right-Pointing Angle Quotation Mark >
 
@@ -88,7 +88,6 @@ void OpticalMarginLookup::buildDefaults()
 	// latinSerifSet.rules = latinSerifRules;
 
 	// m_defaultSets.insert("preset_1", latinSerifSet);
-
 
 	/********************
 	 *  Asian Mono
@@ -168,7 +167,6 @@ void OpticalMarginLookup::buildDefaults()
 // 		i++;
 // 	}
 
-
 // 	QDomElement root = doc.createElement("opticalmarginsets");
 // 	root.setAttribute("minVersion", "1.7.0");
 // 	root.setAttribute("version", "1.7.0");
@@ -185,8 +183,10 @@ const OpticalMarginRules OpticalMarginLookup::mergeCharsToRules(const OpticalMar
 {
 	OpticalMarginRules out;
 
-	for (auto [chr, rule] : chars.asKeyValueRange())
+	for (auto it = chars.cbegin(); it != chars.cend(); ++it)
 	{
+		const QChar chr = it.key();
+		const OpticalMarginRule rule = it.value();
 		// check if value pair exists
 		if (out.contains(rule))
 		{
@@ -228,12 +228,14 @@ QString OpticalMarginLookup::defaultSetId() const
 	return m_defaultSets.firstKey();
 }
 
-QString OpticalMarginLookup::nextAvailableUserId(const OpticalMarginSets& sets)
+QString OpticalMarginLookup::nextAvailableUserId(const OpticalMarginSets &sets)
 {
 	int userId = 0;
 
-	for (auto [id, set] : sets.asKeyValueRange())
+	for (auto it = sets.cbegin(); it != sets.cend(); ++it)
 	{
+		const QString id = it.key();
+		const OpticalMarginSet set = it.value();
 		if (set.type == "user")
 		{
 			int start = id.indexOf("_");
@@ -245,17 +247,17 @@ QString OpticalMarginLookup::nextAvailableUserId(const OpticalMarginSets& sets)
 	return QString("user_%1").arg(userId);
 }
 
-QMap<QString, QString> OpticalMarginLookup::trNames(const OpticalMarginSets& sets) const
+QMap<QString, QString> OpticalMarginLookup::trNames(const OpticalMarginSets &sets) const
 {
 	QMap<QString, QString> list;
 
-	for (const auto& [id, set] : sets.asKeyValueRange())
-		list.insert(id, set.name);
+	for (auto it = sets.cbegin(); it != sets.cend(); ++it)
+		list.insert(it.key(), it.value().name);
 
 	return list;
 }
 
-QString OpticalMarginLookup::trName(const OpticalMarginSets& sets, const QString& id) const
+QString OpticalMarginLookup::trName(const OpticalMarginSets &sets, const QString &id) const
 {
 	if (!sets.contains(id))
 		return QString();
@@ -264,9 +266,9 @@ QString OpticalMarginLookup::trName(const OpticalMarginSets& sets, const QString
 	return set.name;
 }
 
-bool OpticalMarginLookup::hasTrName(const OpticalMarginSets& sets, const QString& trName) const
+bool OpticalMarginLookup::hasTrName(const OpticalMarginSets &sets, const QString &trName) const
 {
-	for (const auto& set : sets)
+	for (const auto &set : sets)
 	{
 		if (set.name == trName)
 			return true;
@@ -275,17 +277,19 @@ bool OpticalMarginLookup::hasTrName(const OpticalMarginSets& sets, const QString
 	return false;
 }
 
-OpticalMarginLookup& OpticalMarginLookup::instance()
+OpticalMarginLookup &OpticalMarginLookup::instance()
 {
 	static OpticalMarginLookup m_instance;
 	return m_instance;
 }
 
-OpticalMarginRule OpticalMarginLookup::offset(const QChar &c, const OpticalMarginSet& set)
+OpticalMarginRule OpticalMarginLookup::offset(const QChar &c, const OpticalMarginSet &set)
 {
-	for (auto [chr, group] : set.rules.asKeyValueRange())
-		if (chr == c)
-			return group;
+	for (auto it = set.rules.cbegin(); it != set.rules.cend(); ++it)
+	{
+		if (it.key() == c)
+			return it.value();
+	}
 
 	return OpticalMarginRule("", 0.0, 0.0, SC_PERCENT);
 }

@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 
 # Avoid interactive prompts during build
 ENV DEBIAN_FRONTEND=noninteractive
@@ -16,15 +16,15 @@ RUN apt-get update && apt-get install -y \
     lldb \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Qt5 development libraries
+# Install Qt6 development libraries
 RUN apt-get update && apt-get install -y \
-    qtbase5-dev \
-    qttools5-dev \
-    qtdeclarative5-dev \
-    libqt5webkit5-dev \
-    libqt5svg5-dev \
-    libqt5opengl5-dev \
-    qtbase5-dev-tools \
+    qt6-base-dev \
+    qt6-base-private-dev \
+    qt6-tools-dev \
+    qt6-tools-dev-tools \
+    libqt6core5compat6-dev \
+    libqt6svg6-dev \
+    linguist-qt6 \
     && rm -rf /var/lib/apt/lists/*
 
 # Install core Scribus build dependencies
@@ -41,6 +41,7 @@ RUN apt-get update && apt-get install -y \
     liblcms2-dev \
     libpoppler-cpp-dev \
     libpoppler-dev \
+    libpoppler-private-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Install optional but recommended dependencies

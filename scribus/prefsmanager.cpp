@@ -10,13 +10,13 @@ for which a new license (GPL+exception) is in place.
 ***************************************************************************/
 
 /***************************************************************************
-*																		 *
-*   This program is free software; you can redistribute it and/or modify  *
-*   it under the terms of the GNU General Public License as published by  *
-*   the Free Software Foundation; either version 2 of the License, or	 *
-*   (at your option) any later version.								   *
-*																		 *
-***************************************************************************/
+ *																		 *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or	 *
+ *   (at your option) any later version.								   *
+ *																		 *
+ ***************************************************************************/
 
 #include <QColor>
 #include <QDebug>
@@ -83,23 +83,23 @@ bool PrefsManager::firstTimeIgnoreOldPrefs() const
 	return m_firstTimeIgnoreOldPrefs;
 }
 
-PrefsManager& PrefsManager::instance()
+PrefsManager &PrefsManager::instance()
 {
 	static PrefsManager m_instance;
 	return m_instance;
 }
 
-ApplicationPrefs* PrefsManager::applicationPrefs()
+ApplicationPrefs *PrefsManager::applicationPrefs()
 {
 	return &appPrefs;
 }
 
-void PrefsManager::setNewPrefs(const ApplicationPrefs& newPrefs)
+void PrefsManager::setNewPrefs(const ApplicationPrefs &newPrefs)
 {
 	appPrefs = newPrefs;
 }
 
-PrefsFile* PrefsManager::applicationPrefsFile()
+PrefsFile *PrefsManager::applicationPrefsFile()
 {
 	return prefsFile;
 }
@@ -109,7 +109,7 @@ void PrefsManager::setup()
 	setupPreferencesLocation();
 
 	copyOldAppConfigAndData();
-	prefsFile = new PrefsFile( m_prefsLocation + "prefs172.xml" );
+	prefsFile = new PrefsFile(m_prefsLocation + "prefs172.xml");
 
 	//<<CB TODO Reset keyboard shortcuts of all 1.3 users as too many
 	//	 have conflicts if they don't nuke their settings.
@@ -131,10 +131,10 @@ void PrefsManager::initDefaults()
 	defaultFonts << "Liberation Sans Regular";
 
 	bool goodFont = false;
-	const SCFonts& availableFonts = appPrefs.fontPrefs.AvailFonts;
+	const SCFonts &availableFonts = appPrefs.fontPrefs.AvailFonts;
 	for (int i = 0; i < defaultFonts.count(); ++i)
 	{
-		const QString& defCandidate = defaultFonts.at(i);
+		const QString &defCandidate = defaultFonts.at(i);
 		if (availableFonts.contains(defCandidate))
 		{
 			appPrefs.itemToolPrefs.textFont = defCandidate;
@@ -168,7 +168,7 @@ void PrefsManager::initDefaults()
 		appPrefs.uiPrefs.style = "Fusion";
 #endif
 	/** Set Default window position and size to sane default values which should work on every screen */
-	const QScreen* s = QGuiApplication::primaryScreen();
+	const QScreen *s = QGuiApplication::primaryScreen();
 	appPrefs.uiPrefs.mainWinSettings.width = s->availableGeometry().width() * (4.0 / 5.0);
 	appPrefs.uiPrefs.mainWinSettings.height = s->availableGeometry().height() * (4.0 / 5.0);
 	appPrefs.uiPrefs.mainWinSettings.xPosition = (s->availableGeometry().width() - appPrefs.uiPrefs.mainWinSettings.width) / 2;
@@ -230,8 +230,8 @@ void PrefsManager::initDefaults()
 	appPrefs.guidesPrefs.offsetBaselineGrid = 0.0;
 	appPrefs.displayPrefs.showToolTips = true;
 	appPrefs.displayPrefs.showMouseCoordinates = true;
-	//FIXME
-	//Black here causes issues when a colour set is loaded without "Black" in it.
+	// FIXME
+	// Black here causes issues when a colour set is loaded without "Black" in it.
 	//"Black" is created with wrong values. Eg SVG colour set
 	appPrefs.itemToolPrefs.shapeLineColor = "Black";
 	appPrefs.itemToolPrefs.shapeFillColor = CommonStrings::None;
@@ -369,7 +369,7 @@ void PrefsManager::initDefaults()
 
 	appPrefs.pdfOutputPreviewPrefs.enableAntiAliasing = true;
 	appPrefs.pdfOutputPreviewPrefs.showTransparency = false;
-	appPrefs.pdfOutputPreviewPrefs.cmykPreviewMode = false ;
+	appPrefs.pdfOutputPreviewPrefs.cmykPreviewMode = false;
 	appPrefs.pdfOutputPreviewPrefs.isCyanVisible = true;
 	appPrefs.pdfOutputPreviewPrefs.isMagentaVisible = true;
 	appPrefs.pdfOutputPreviewPrefs.isYellowVisible = true;
@@ -380,7 +380,7 @@ void PrefsManager::initDefaults()
 	appPrefs.psOutputPreviewPrefs.psLevel = 3;
 	appPrefs.psOutputPreviewPrefs.enableAntiAliasing = true;
 	appPrefs.psOutputPreviewPrefs.showTransparency = false;
-	appPrefs.psOutputPreviewPrefs.cmykPreviewMode = false ;
+	appPrefs.psOutputPreviewPrefs.cmykPreviewMode = false;
 	appPrefs.psOutputPreviewPrefs.isCyanVisible = true;
 	appPrefs.psOutputPreviewPrefs.isMagentaVisible = true;
 	appPrefs.psOutputPreviewPrefs.isYellowVisible = true;
@@ -476,7 +476,7 @@ void PrefsManager::initDefaults()
 	appPrefs.pdfPrefs.CompressMethod = PDFOptions::Compression_Auto;
 	appPrefs.pdfPrefs.Quality = 0;
 	appPrefs.pdfPrefs.RecalcPic = false;
-	appPrefs.pdfPrefs.embedPDF  = false;
+	appPrefs.pdfPrefs.embedPDF = false;
 	appPrefs.pdfPrefs.Bookmarks = false;
 	appPrefs.pdfPrefs.PicRes = 300;
 	appPrefs.pdfPrefs.Version = PDFVersion::PDF_14;
@@ -539,11 +539,11 @@ void PrefsManager::initDefaults()
 	appPrefs.activePageSizes.clear();
 	appPrefs.activePageSizes = PageSize::defaultSizesList();
 
-	//Attribute setup
+	// Attribute setup
 	appPrefs.itemAttrPrefs.defaultItemAttributes.clear();
 	appPrefs.tocPrefs.defaultToCSetups.clear();
 
-	//Experimental Features
+	// Experimental Features
 	appPrefs.experimentalFeaturePrefs.notesEnabled = false;
 
 	initDefaultActionKeys();
@@ -552,10 +552,10 @@ void PrefsManager::initDefaults()
 void PrefsManager::initDefaultActionKeys()
 {
 	ActionManager::createDefaultShortcuts();
-	const QMap<QString, QKeySequence > *map = ActionManager::defaultShortcuts();
+	const QMap<QString, QKeySequence> *map = ActionManager::defaultShortcuts();
 	for (auto it = map->constBegin(); it != map->constEnd(); ++it)
 	{
-		Keys& keyAction = appPrefs.keyShortcutPrefs.KeyActions[it.key()];
+		Keys &keyAction = appPrefs.keyShortcutPrefs.KeyActions[it.key()];
 		keyAction.actionName = it.key();
 		keyAction.keySequence = it.value();
 	}
@@ -577,7 +577,7 @@ void PrefsManager::applyLoadedShortCuts()
 	}
 }
 
-void PrefsManager::initDefaultGUIFont(const QFont& guiFont)
+void PrefsManager::initDefaultGUIFont(const QFont &guiFont)
 {
 	appPrefs.uiPrefs.applicationFontSize = guiFont.pointSize();
 	appPrefs.storyEditorPrefs.guiFont = guiFont.toString();
@@ -771,7 +771,7 @@ void PrefsManager::initArrowStyles()
 	points.resize(0);
 }
 
-const QString& PrefsManager::preferencesLocation() const
+const QString &PrefsManager::preferencesLocation() const
 {
 	return m_prefsLocation;
 }
@@ -786,7 +786,7 @@ void PrefsManager::copyOldAppConfigAndData()
 	if (QFile::exists(m_prefsLocation + "scribus172.rc") && QFile::exists(m_prefsLocation + "prefs172.xml"))
 		return;
 
-	//Move to using the ScPaths default prefs location/scribus.* from ~/.scribus.*
+	// Move to using the ScPaths default prefs location/scribus.* from ~/.scribus.*
 	QString oldPR = QDir::toNativeSeparators(QDir::homePath() + "/.scribus.rc");
 	QString newPR = QDir::toNativeSeparators(m_prefsLocation + "/scribus.rc");
 	QFileInfo oldPi(oldPR);
@@ -836,29 +836,29 @@ void PrefsManager::copyOldAppConfigAndData()
 	if (oldPi8.exists() && !QFile::exists(newPR8))
 		moveFile(oldPR8, m_prefsLocation + "checkfonts150.xml");
 
-	//Move plugin data files to new plugin data file directory
+	// Move plugin data files to new plugin data file directory
 	QDir oldPluginData(ScPaths::preferencesDir() + "/plugins");
 	const QFileInfoList filPluginData(oldPluginData.entryInfoList());
-	for (const QFileInfo& fiP : filPluginData)
+	for (const QFileInfo &fiP : filPluginData)
 		moveFile(fiP.absoluteFilePath(), ScPaths::pluginDataDir(true) + fiP.fileName());
 
-	//Move scrapbook files to new scrapbook directory
+	// Move scrapbook files to new scrapbook directory
 	QDir oldScrapData(ScPaths::preferencesDir() + "/scrapbook");
 	const QFileInfoList filScrapData(oldScrapData.entryInfoList());
-	for (const QFileInfo& fiS : filScrapData)
+	for (const QFileInfo &fiS : filScrapData)
 		moveFile(fiS.absoluteFilePath(), ScPaths::scrapbookDir(true) + fiS.fileName());
 
-	//Move swatch files to new palette directory
+	// Move swatch files to new palette directory
 	QDir oldPaletteData(ScPaths::preferencesDir() + "/swatches");
 	const QFileInfoList filPaletteData(oldPaletteData.entryInfoList());
-	for (const QFileInfo& fiPal : filPaletteData)
+	for (const QFileInfo &fiPal : filPaletteData)
 		moveFile(fiPal.absoluteFilePath(), ScPaths::userPaletteFilesDir(true) + fiPal.fileName());
 	QDir oldPaletteData2 = ScPaths::preferencesDir() + "/palettes";
 	const QFileInfoList filPaletteData2(oldPaletteData2.entryInfoList());
-	for (const QFileInfo& fiPal : filPaletteData2)
+	for (const QFileInfo &fiPal : filPaletteData2)
 		moveFile(fiPal.absoluteFilePath(), ScPaths::userPaletteFilesDir(true) + fiPal.fileName());
 
-	//Now make copies for 1.7.0 use and leave the old ones alone for <1.7.0 usage
+	// Now make copies for 1.7.0 use and leave the old ones alone for <1.7.0 usage
 	QString prefs150[5];
 	QString prefs160[5];
 	QString prefs172[5];
@@ -895,7 +895,7 @@ void PrefsManager::copyOldAppConfigAndData()
 	if (existsPrefs172[0] && existsPrefs172[2])
 		return;
 
-	//Only check for these three as they will be autocreated if they don't exist.
+	// Only check for these three as they will be autocreated if they don't exist.
 	if ((existsPrefs160[0] && !existsPrefs172[0]) || (existsPrefs160[2] && !existsPrefs172[2]))
 	{
 		// Now always return false
@@ -906,12 +906,12 @@ void PrefsManager::copyOldAppConfigAndData()
 			if (splashShown)
 				ScCore->showSplash(false);
 			if (ScMessageBox::question(ScCore->primaryMainWindow(), tr("Migrate Old Scribus Settings?"),
-				tr("Scribus has detected existing Scribus 1.6.0 preferences files.\n"
-					"Do you want to migrate them to the new Scribus version?"),
-				QMessageBox::Yes | QMessageBox::No,
-				QMessageBox::NoButton,	// GUI default
-				QMessageBox::Yes	// batch default
-			) == QMessageBox::Yes)
+									   tr("Scribus has detected existing Scribus 1.6.0 preferences files.\n"
+										  "Do you want to migrate them to the new Scribus version?"),
+									   QMessageBox::Yes | QMessageBox::No,
+									   QMessageBox::NoButton, // GUI default
+									   QMessageBox::Yes		  // batch default
+									   ) == QMessageBox::Yes)
 			{
 				for (uint i = 0; i < 5; ++i)
 				{
@@ -949,7 +949,7 @@ void PrefsManager::readPrefsXML()
 {
 	if (!prefsFile)
 		return;
-	PrefsContext* userprefsContext = prefsFile->getContext("user_preferences");
+	PrefsContext *userprefsContext = prefsFile->getContext("user_preferences");
 	if (userprefsContext)
 	{
 		QString guiLanguage = userprefsContext->get("gui_language", "");
@@ -969,18 +969,17 @@ void PrefsManager::readPrefsXML()
 		}
 		appPrefs.uiPrefs.mainWinState = QByteArray::fromBase64(userprefsContext->get("mainwinstate", "").toLatin1());
 		appPrefs.uiPrefs.adsDockState = QByteArray::fromBase64(userprefsContext->get("ads_dockstate", "").toLatin1());
-		//continue here...
-		//Prefs."blah blah" =...
+		// continue here...
+		// Prefs."blah blah" =...
 	}
 	if (prefsFile->hasContext("print_options"))
 	{
 		// Reset copies number to 1 when user start new session
-		PrefsContext* printOptionsContext = prefsFile->getContext("print_options");
+		PrefsContext *printOptionsContext = prefsFile->getContext("print_options");
 		if (printOptionsContext)
 			printOptionsContext->set("Copies", 1);
 	}
 }
-
 
 void PrefsManager::savePrefs()
 {
@@ -1018,44 +1017,44 @@ void PrefsManager::savePrefsXML()
 	if (!prefsFile)
 		return;
 
-	PrefsContext* userprefsContext = prefsFile->getContext("user_preferences");
+	PrefsContext *userprefsContext = prefsFile->getContext("user_preferences");
 	if (userprefsContext)
 	{
 		userprefsContext->set("gui_language", appPrefs.uiPrefs.language);
 		userprefsContext->set("mainwinstate", QString::fromLatin1(appPrefs.uiPrefs.mainWinState.toBase64()));
 		userprefsContext->set("ads_dockstate", QString::fromLatin1(appPrefs.uiPrefs.adsDockState.toBase64()));
-		//continue here...
-		//Prefs."blah blah" =...
+		// continue here...
+		// Prefs."blah blah" =...
 	}
 	prefsFile->write();
 }
 
-void PrefsManager::setGhostscriptExecutable(const QString& executableName)
+void PrefsManager::setGhostscriptExecutable(const QString &executableName)
 {
 	appPrefs.extToolPrefs.gs_exe = executableName;
 }
 
-void PrefsManager::setImageEditorExecutable(const QString& executableName)
+void PrefsManager::setImageEditorExecutable(const QString &executableName)
 {
 	appPrefs.extToolPrefs.imageEditorExecutable = executableName;
 }
 
-void PrefsManager::setExtBrowserExecutable(const QString& executableName)
+void PrefsManager::setExtBrowserExecutable(const QString &executableName)
 {
 	appPrefs.extToolPrefs.extBrowserExecutable = executableName;
 }
 
-void PrefsManager::setUniconvExecutable(const QString& executableName)
+void PrefsManager::setUniconvExecutable(const QString &executableName)
 {
 	appPrefs.extToolPrefs.uniconvExecutable = executableName;
 }
 
-void PrefsManager::setLatexConfigs(const QStringList& configs)
+void PrefsManager::setLatexConfigs(const QStringList &configs)
 {
 	appPrefs.extToolPrefs.latexConfigs = configs;
 }
 
-void PrefsManager::setLatexCommands(const QMap<QString, QString>& commands)
+void PrefsManager::setLatexCommands(const QMap<QString, QString> &commands)
 {
 	appPrefs.extToolPrefs.latexCommands = commands;
 }
@@ -1067,7 +1066,7 @@ bool PrefsManager::renderFrameConfigured() const
 	if (appPrefs.extToolPrefs.latexCommands.isEmpty())
 		return false;
 	bool foundAny = false;
-	for (const QString& cmd : appPrefs.extToolPrefs.latexCommands)
+	for (const QString &cmd : appPrefs.extToolPrefs.latexCommands)
 	{
 		QStringList args = QProcess::splitCommand(cmd);
 		if (args.isEmpty())
@@ -1081,18 +1080,17 @@ bool PrefsManager::renderFrameConfigured() const
 	return foundAny;
 }
 
-
-void PrefsManager::setLatexEditorExecutable(const QString& executableName)
+void PrefsManager::setLatexEditorExecutable(const QString &executableName)
 {
 	appPrefs.extToolPrefs.latexEditorExecutable = executableName;
 }
 
-const QString& PrefsManager::documentDir() const
+const QString &PrefsManager::documentDir() const
 {
 	return appPrefs.pathPrefs.documents;
 }
 
-void PrefsManager::setDocumentDir(const QString& dirname)
+void PrefsManager::setDocumentDir(const QString &dirname)
 {
 	appPrefs.pathPrefs.documents = dirname;
 }
@@ -1102,7 +1100,7 @@ int PrefsManager::mouseWheelJump() const
 	return appPrefs.uiPrefs.wheelJump;
 }
 
-//Changed to return false when we have no fonts
+// Changed to return false when we have no fonts
 bool PrefsManager::GetAllFonts(bool showFontInfo)
 {
 	appPrefs.fontPrefs.AvailFonts.getFonts(m_prefsLocation, showFontInfo);
@@ -1114,27 +1112,27 @@ void PrefsManager::setShowStartupDialog(const bool showDialog)
 	appPrefs.uiPrefs.showStartupDialog = showDialog;
 }
 
-const ColorList& PrefsManager::colorSet() const
+const ColorList &PrefsManager::colorSet() const
 {
 	return appPrefs.colorPrefs.DColors;
 }
 
-ColorList* PrefsManager::colorSetPtr()
+ColorList *PrefsManager::colorSetPtr()
 {
 	return &appPrefs.colorPrefs.DColors;
 }
 
-const QString& PrefsManager::colorSetName() const
+const QString &PrefsManager::colorSetName() const
 {
 	return appPrefs.colorPrefs.DColorSet;
 }
 
-bool PrefsManager::isToolColor(const QString& name) const
+bool PrefsManager::isToolColor(const QString &name) const
 {
 	return isToolColor(appPrefs.itemToolPrefs, name);
 }
 
-bool PrefsManager::isToolColor(const ItemToolPrefs& settings, const QString& name)
+bool PrefsManager::isToolColor(const ItemToolPrefs &settings, const QString &name)
 {
 	if (settings.calligraphicPenLineColor == name)
 		return true;
@@ -1166,7 +1164,7 @@ QStringList PrefsManager::toolColorNames() const
 	return toolColorNames(appPrefs.itemToolPrefs);
 }
 
-QStringList PrefsManager::toolColorNames(const ItemToolPrefs& settings)
+QStringList PrefsManager::toolColorNames(const ItemToolPrefs &settings)
 {
 	QStringList names;
 	names.append(settings.textColor);
@@ -1193,12 +1191,12 @@ QStringList PrefsManager::toolColorNames(const ItemToolPrefs& settings)
 	return names;
 }
 
-void PrefsManager::replaceToolColors(const QMap<QString, QString>& replaceMap)
+void PrefsManager::replaceToolColors(const QMap<QString, QString> &replaceMap)
 {
 	replaceToolColors(appPrefs.itemToolPrefs, replaceMap);
 }
 
-void PrefsManager::replaceToolColors(ItemToolPrefs& settings, const QMap<QString, QString>& replaceMap)
+void PrefsManager::replaceToolColors(ItemToolPrefs &settings, const QMap<QString, QString> &replaceMap)
 {
 	if (replaceMap.contains(settings.textColor))
 		settings.textColor = replaceMap[settings.textColor];
@@ -1224,19 +1222,19 @@ void PrefsManager::replaceToolColors(ItemToolPrefs& settings, const QMap<QString
 		settings.calligraphicPenLineColor = replaceMap[settings.calligraphicPenLineColor];
 }
 
-void PrefsManager::replaceToolResources(const ResourceCollection& newNames)
+void PrefsManager::replaceToolResources(const ResourceCollection &newNames)
 {
 	replaceToolResources(appPrefs.itemToolPrefs, newNames);
 }
 
-void PrefsManager::replaceToolResources(ItemToolPrefs& settings, const ResourceCollection& newNames)
+void PrefsManager::replaceToolResources(ItemToolPrefs &settings, const ResourceCollection &newNames)
 {
-	const auto& newFonts = newNames.fonts();
+	const auto &newFonts = newNames.fonts();
 
 	auto it = newFonts.find(settings.textFont);
 	if (it != newFonts.cend())
 	{
-		const ScFace& newFace = newNames.availableFonts->findFont(it.value(), nullptr);
+		const ScFace &newFace = newNames.availableFonts->findFont(it.value(), nullptr);
 		if (!newFace.isNone())
 			settings.textFont = it.value();
 	}
@@ -1244,7 +1242,7 @@ void PrefsManager::replaceToolResources(ItemToolPrefs& settings, const ResourceC
 	PrefsManager::replaceToolColors(settings, newNames.colors());
 }
 
-void PrefsManager::setColorSet(const ColorList& colorSet)
+void PrefsManager::setColorSet(const ColorList &colorSet)
 {
 	// Color set may have changed and tools color not be present in the new color set
 	ColorList tmpSet = colorSet;
@@ -1285,13 +1283,12 @@ void PrefsManager::setColorSet(const ColorList& colorSet)
 	appPrefs.colorPrefs.DColors.ensureDefaultColors();
 }
 
-void PrefsManager::setColorSetName(const QString& colorSetName)
+void PrefsManager::setColorSetName(const QString &colorSetName)
 {
 	appPrefs.colorPrefs.DColorSet = colorSetName;
 }
 
-
-void PrefsManager::setKeyEntry(const QString& actName, const QString& cleanMenuText, const QKeySequence& keyseq, const int& rowNumber)
+void PrefsManager::setKeyEntry(const QString &actName, const QString &cleanMenuText, const QKeySequence &keyseq, const int &rowNumber)
 {
 	Keys ke;
 	if (!actName.isEmpty())
@@ -1314,32 +1311,32 @@ double PrefsManager::displayScale() const
 	return appPrefs.displayPrefs.displayScale;
 }
 
-const QString& PrefsManager::uiLanguage() const
+const QString &PrefsManager::uiLanguage() const
 {
 	return appPrefs.uiPrefs.language;
 }
 
-const QString& PrefsManager::guiStyle() const
+const QString &PrefsManager::guiStyle() const
 {
 	return appPrefs.uiPrefs.style;
 }
 
-const QString& PrefsManager::guiSystemStyle() const
+const QString &PrefsManager::guiSystemStyle() const
 {
 	return appPrefs.ui_SystemTheme;
 }
 
-const QString& PrefsManager::guiIconSet() const
+const QString &PrefsManager::guiIconSet() const
 {
 	return appPrefs.uiPrefs.iconSet;
 }
 
-const int& PrefsManager::guiFontSize() const
+const int &PrefsManager::guiFontSize() const
 {
 	return appPrefs.uiPrefs.applicationFontSize;
 }
 
-const int& PrefsManager::paletteFontSize() const
+const int &PrefsManager::paletteFontSize() const
 {
 	return appPrefs.uiPrefs.paletteFontSize;
 }
@@ -1349,7 +1346,7 @@ bool PrefsManager::showPageShadow() const
 	return appPrefs.displayPrefs.showPageShadow;
 }
 
-bool PrefsManager::writePref(const QString& filePath)
+bool PrefsManager::writePref(const QString &filePath)
 {
 	QDomDocument docu("scribusrc");
 	QString st = "<SCRIBUSRC></SCRIBUSRC>";
@@ -1494,7 +1491,7 @@ bool PrefsManager::writePref(const QString& filePath)
 		if (!itf.currentKey().isEmpty())
 		{
 			QDomElement fn = docu.createElement("Font");
-			fn.setAttribute("Name",itf.currentKey());
+			fn.setAttribute("Name", itf.currentKey());
 			fn.setAttribute("Embed", static_cast<int>(itf.current().embedPs()));
 			fn.setAttribute("Use", static_cast<int>(itf.current().usable()));
 			fn.setAttribute("Subset", static_cast<int>(itf.current().subset()));
@@ -1558,7 +1555,7 @@ bool PrefsManager::writePref(const QString& filePath)
 	dcItemTools.setAttribute("TextDistanceLeft", ScCLocale::toQStringC(appPrefs.itemToolPrefs.textDistances.left()));
 	dcItemTools.setAttribute("TextDistanceRight", ScCLocale::toQStringC(appPrefs.itemToolPrefs.textDistances.right()));
 	dcItemTools.setAttribute("TabFillCharacter", appPrefs.itemToolPrefs.textTabFillChar);
-	dcItemTools.setAttribute("FirstLineOffset", (int) appPrefs.itemToolPrefs.firstLineOffset);
+	dcItemTools.setAttribute("FirstLineOffset", (int)appPrefs.itemToolPrefs.firstLineOffset);
 	dcItemTools.setAttribute("ShapeLineStyle", appPrefs.itemToolPrefs.shapeLineStyle);
 	dcItemTools.setAttribute("LineStyle", appPrefs.itemToolPrefs.lineStyle);
 	dcItemTools.setAttribute("ShapeLineWidth", ScCLocale::toQStringC(appPrefs.itemToolPrefs.shapeLineWidth));
@@ -1625,7 +1622,7 @@ bool PrefsManager::writePref(const QString& filePath)
 	dcScrapbook.setAttribute("PersistentScrapbook", static_cast<int>(appPrefs.scrapbookPrefs.persistentScrapbook));
 	dcScrapbook.setAttribute("WritePreviews", static_cast<int>(appPrefs.scrapbookPrefs.writePreviews));
 	dcScrapbook.setAttribute("ScrapbookCopies", appPrefs.scrapbookPrefs.numScrapbookCopies);
-	for (int i=0; i<appPrefs.scrapbookPrefs.RecentScrapbooks.count(); ++i)
+	for (int i = 0; i < appPrefs.scrapbookPrefs.RecentScrapbooks.count(); ++i)
 	{
 		QDomElement rde = docu.createElement("Recent");
 		rde.setAttribute("Name", appPrefs.scrapbookPrefs.RecentScrapbooks[i]);
@@ -1633,16 +1630,15 @@ bool PrefsManager::writePref(const QString& filePath)
 	}
 	elem.appendChild(dcScrapbook);
 
-
 	QDomElement pageSetAttr = docu.createElement("PageSets");
-	for (const PageSet& pageSet : std::as_const(appPrefs.pageSets))
+	for (const PageSet &pageSet : std::as_const(appPrefs.pageSets))
 	{
 		QDomElement pgst = docu.createElement("Set");
 		pgst.setAttribute("Name", pageSet.Name);
 		pgst.setAttribute("FirstPage", pageSet.FirstPage);
 		pgst.setAttribute("Rows", pageSet.Rows);
 		pgst.setAttribute("Columns", pageSet.Columns);
-		for (const QString& pageName : pageSet.pageNames)
+		for (const QString &pageName : pageSet.pageNames)
 		{
 			QDomElement pgstN = docu.createElement("PageNames");
 			pgstN.setAttribute("Name", pageName);
@@ -1662,7 +1658,7 @@ bool PrefsManager::writePref(const QString& filePath)
 	for (auto itcp = appPrefs.verifierPrefs.checkerPrefsList.cbegin(); itcp != itcpend; ++itcp)
 	{
 		QDomElement dcVerifierProfile = docu.createElement("VerifierProfile");
-		const CheckerPrefs& checkerProfile = itcp.value();
+		const CheckerPrefs &checkerProfile = itcp.value();
 		dcVerifierProfile.setAttribute("Name", itcp.key());
 		dcVerifierProfile.setAttribute("IgnoreErrors", static_cast<int>(checkerProfile.ignoreErrors));
 		dcVerifierProfile.setAttribute("AutoCheck", static_cast<int>(checkerProfile.autoCheck));
@@ -1765,7 +1761,7 @@ bool PrefsManager::writePref(const QString& filePath)
 	dcExternalTools.setAttribute("LatexForceDpi", static_cast<int>(appPrefs.extToolPrefs.latexForceDpi));
 	dcExternalTools.setAttribute("LatexStartWithEmptyFrames", static_cast<int>(appPrefs.extToolPrefs.latexStartWithEmptyFrames));
 	const QStringList configs = latexConfigs();
-	for (const QString& config : configs)
+	for (const QString &config : configs)
 	{
 		QDomElement domConfig = docu.createElement("LatexConfig");
 		domConfig.setAttribute("file", config);
@@ -1784,7 +1780,7 @@ bool PrefsManager::writePref(const QString& filePath)
 		hyElem.setAttribute("Hyphenated", hyit.value());
 		rde.appendChild(hyElem);
 	}
-	for (const auto& hyWord : std::as_const(appPrefs.hyphPrefs.ignoredWords))
+	for (const auto &hyWord : std::as_const(appPrefs.hyphPrefs.ignoredWords))
 	{
 		QDomElement hyElem2 = docu.createElement("Ignore");
 		hyElem2.setAttribute("Word", hyWord);
@@ -1811,7 +1807,7 @@ bool PrefsManager::writePref(const QString& filePath)
 		if (ksc.value().actionName.isEmpty())
 			continue;
 		QDomElement kscc = docu.createElement("Shortcut");
-		kscc.setAttribute("Action",ksc.value().actionName);
+		kscc.setAttribute("Action", ksc.value().actionName);
 		kscc.setAttribute("KeySequence", Prefs_KeyboardShortcuts::getKeyText(ksc.value().keySequence));
 		elem.appendChild(kscc);
 	}
@@ -1892,7 +1888,7 @@ bool PrefsManager::writePref(const QString& filePath)
 	elem.appendChild(pdf);
 
 	QDomElement docItemAttrs = docu.createElement("DefaultItemAttributes");
-	for (const auto& objAttr : std::as_const(appPrefs.itemAttrPrefs.defaultItemAttributes))
+	for (const auto &objAttr : std::as_const(appPrefs.itemAttrPrefs.defaultItemAttributes))
 	{
 		QDomElement itemAttr = docu.createElement("ItemAttribute");
 		itemAttr.setAttribute("Name", objAttr.name);
@@ -1907,7 +1903,7 @@ bool PrefsManager::writePref(const QString& filePath)
 	elem.appendChild(docItemAttrs);
 
 	QDomElement tocElem = docu.createElement("TablesOfContents");
-	for (const auto& tocSetup : std::as_const(appPrefs.tocPrefs.defaultToCSetups))
+	for (const auto &tocSetup : std::as_const(appPrefs.tocPrefs.defaultToCSetups))
 	{
 		QDomElement tocsetup = docu.createElement("TableOfContents");
 		tocsetup.setAttribute("Name", tocSetup.name);
@@ -1970,7 +1966,7 @@ bool PrefsManager::writePref(const QString& filePath)
 	QFile f(filePath);
 	if (!f.open(QIODevice::WriteOnly))
 	{
-		m_lastError = tr("Could not open preferences file \"%1\" for writing: %2").arg(filePath, QApplication::translate("QFile",f.errorString().toLatin1().constData()));
+		m_lastError = tr("Could not open preferences file \"%1\" for writing: %2").arg(filePath, QApplication::translate("QFile", f.errorString().toLatin1().constData()));
 	}
 	else
 	{
@@ -1987,13 +1983,13 @@ bool PrefsManager::writePref(const QString& filePath)
 	return result;
 }
 
-bool PrefsManager::readPref(const QString& filePath)
+bool PrefsManager::readPref(const QString &filePath)
 {
 	QDomDocument docu("scridoc");
 	QFile f(filePath);
 	if (!f.open(QIODevice::ReadOnly))
 	{
-		m_lastError = tr("Failed to open prefs file \"%1\": %2").arg(filePath, QApplication::translate("QFile",f.errorString().toLatin1().constData()) );
+		m_lastError = tr("Failed to open prefs file \"%1\": %2").arg(filePath, QApplication::translate("QFile", f.errorString().toLatin1().constData()));
 		return false;
 	}
 
@@ -2024,11 +2020,11 @@ bool PrefsManager::readPref(const QString& filePath)
 	ScDomElement elem = docu.documentElement();
 	if (elem.tagName() != "SCRIBUSRC")
 		return false;
-	//Ignore scribus*.rc files prior to 1.5.0 due to changes
+	// Ignore scribus*.rc files prior to 1.5.0 due to changes
 	bool supportedPrefsFileFound = false;
 	if (elem.hasAttribute("VERSION"))
 	{
-		QStringList supportedPrefsVersions { "1.5.0", "1.6.0", "1.7.0" };
+		QStringList supportedPrefsVersions{"1.5.0", "1.6.0", "1.7.0"};
 		QString prefsVersion = elem.attribute("VERSION");
 		supportedPrefsFileFound = supportedPrefsVersions.contains(prefsVersion);
 	}
@@ -2066,9 +2062,9 @@ bool PrefsManager::readPref(const QString& filePath)
 			appPrefs.uiPrefs.showLabelsOfInactiveTabs = dc.attribute("ShowLabelsOfInactiveTabs").toInt();
 			appPrefs.uiPrefs.useTabs = static_cast<bool>(dc.attribute("UseDocumentTabs", "0").toInt());
 			appPrefs.uiPrefs.stickyTools = static_cast<bool>(dc.attribute("StickyTools", "0").toInt());
-			appPrefs.uiPrefs.grayscaleIcons = static_cast<bool>(dc.attribute("UseGrayscaleIcons",nullptr).toInt());
+			appPrefs.uiPrefs.grayscaleIcons = static_cast<bool>(dc.attribute("UseGrayscaleIcons", nullptr).toInt());
 			appPrefs.uiPrefs.iconSet = dc.attribute("IconSet", "Scribus 1.7.0");
-			//Override importing prefs and default iconset for 1.7.0
+			// Override importing prefs and default iconset for 1.7.0
 			if (appPrefs.uiPrefs.iconSet.startsWith("Scribus 1.5"))
 				appPrefs.uiPrefs.iconSet = "Scribus 1.7.0";
 			appPrefs.uiPrefs.userPreferredLocale = dc.attribute("UserPreferredLocale", "System");
@@ -2081,20 +2077,20 @@ bool PrefsManager::readPref(const QString& filePath)
 			if (appPrefs.docSetupPrefs.language.isEmpty())
 				appPrefs.docSetupPrefs.language = "en_GB";
 			appPrefs.docSetupPrefs.docUnitIndex = dc.attribute("UnitIndex", "0").toInt();
-			PageSize ps( dc.attribute("PageSize", PageSize::defaultSizesList().at(1)) );
-			appPrefs.docSetupPrefs.pageSize = (ps.name() == CommonStrings::customPageSize ) ? PageSize::defaultSizesList().at(1) : ps.name();
+			PageSize ps(dc.attribute("PageSize", PageSize::defaultSizesList().at(1)));
+			appPrefs.docSetupPrefs.pageSize = (ps.name() == CommonStrings::customPageSize) ? PageSize::defaultSizesList().at(1) : ps.name();
 			appPrefs.docSetupPrefs.pageOrientation = dc.attribute("PageOrientation", "0").toInt();
-			appPrefs.docSetupPrefs.pageWidth   = ScCLocale::toDoubleC(dc.attribute("PageWidth"), 595.0);
-			appPrefs.docSetupPrefs.pageHeight  = ScCLocale::toDoubleC(dc.attribute("PageHeight"), 842.0);
+			appPrefs.docSetupPrefs.pageWidth = ScCLocale::toDoubleC(dc.attribute("PageWidth"), 595.0);
+			appPrefs.docSetupPrefs.pageHeight = ScCLocale::toDoubleC(dc.attribute("PageHeight"), 842.0);
 			appPrefs.docSetupPrefs.margins.setTop(ScCLocale::toDoubleC(dc.attribute("MarginTop"), 9.0));
 			appPrefs.docSetupPrefs.margins.setBottom(ScCLocale::toDoubleC(dc.attribute("MarginBottom"), 40.0));
 			appPrefs.docSetupPrefs.margins.setLeft(ScCLocale::toDoubleC(dc.attribute("MarginLeft"), 9.0));
 			appPrefs.docSetupPrefs.margins.setRight(ScCLocale::toDoubleC(dc.attribute("MarginRight"), 9.0));
-			appPrefs.docSetupPrefs.marginPreset   = dc.attribute("MarginPreset", "0").toInt();
-			appPrefs.docSetupPrefs.pagePositioning	= dc.attribute("PagePositioning", "0").toInt();
-			appPrefs.docSetupPrefs.AutoSave	  = static_cast<bool>(dc.attribute("AutoSave", "0").toInt());
-			appPrefs.docSetupPrefs.AutoSaveTime  = dc.attribute("AutoSaveTime", "600000").toInt();
-			appPrefs.docSetupPrefs.AutoSaveCount  = dc.attribute("AutoSaveCount", "1").toInt();
+			appPrefs.docSetupPrefs.marginPreset = dc.attribute("MarginPreset", "0").toInt();
+			appPrefs.docSetupPrefs.pagePositioning = dc.attribute("PagePositioning", "0").toInt();
+			appPrefs.docSetupPrefs.AutoSave = static_cast<bool>(dc.attribute("AutoSave", "0").toInt());
+			appPrefs.docSetupPrefs.AutoSaveTime = dc.attribute("AutoSaveTime", "600000").toInt();
+			appPrefs.docSetupPrefs.AutoSaveCount = dc.attribute("AutoSaveCount", "1").toInt();
 			appPrefs.docSetupPrefs.AutoSaveKeep = static_cast<bool>(dc.attribute("AutoSaveKeep", "0").toInt());
 			appPrefs.docSetupPrefs.AutoSaveLocation = static_cast<bool>(dc.attribute("AutoSaveLoc", "1").toInt());
 			appPrefs.docSetupPrefs.AutoSaveDir = dc.attribute("AutoSaveDir", "");
@@ -2119,8 +2115,8 @@ bool PrefsManager::readPref(const QString& filePath)
 			appPrefs.displayPrefs.scratch.setLeft(ScCLocale::toDoubleC(dc.attribute("ScratchLeft"), 100.0));
 			appPrefs.displayPrefs.scratch.setRight(ScCLocale::toDoubleC(dc.attribute("ScratchRight"), 100.0));
 			appPrefs.displayPrefs.scratch.setTop(ScCLocale::toDoubleC(dc.attribute("ScratchTop"), 20.0));
-			appPrefs.displayPrefs.pageGapHorizontal  = ScCLocale::toDoubleC(dc.attribute("PageGapHorizontal"), 0.0);
-			appPrefs.displayPrefs.pageGapVertical	= ScCLocale::toDoubleC(dc.attribute("PageGapVertical"), 40.0);
+			appPrefs.displayPrefs.pageGapHorizontal = ScCLocale::toDoubleC(dc.attribute("PageGapHorizontal"), 0.0);
+			appPrefs.displayPrefs.pageGapVertical = ScCLocale::toDoubleC(dc.attribute("PageGapVertical"), 40.0);
 			appPrefs.displayPrefs.showPageShadow = static_cast<bool>(dc.attribute("ShowPageShadow", "1").toInt());
 			appPrefs.displayPrefs.paperColor = QColor(dc.attribute("PageColor"));
 			if (dc.hasAttribute("ScratchColor"))
@@ -2136,7 +2132,7 @@ bool PrefsManager::readPref(const QString& filePath)
 			appPrefs.displayPrefs.pageBorderColor = QColor(dc.attribute("PageBorderColor", "#ff0000"));
 			appPrefs.displayPrefs.controlCharColor = QColor(dc.attribute("ControlCharColor", "#800000"));
 			appPrefs.displayPrefs.marginColored = static_cast<bool>(dc.attribute("ShowMarginsFilled", "0").toInt());
-			appPrefs.displayPrefs.displayScale = qRound(ScCLocale::toDoubleC(dc.attribute("DisplayScale"), appPrefs.displayPrefs.displayScale)*72)/72.0;
+			appPrefs.displayPrefs.displayScale = qRound(ScCLocale::toDoubleC(dc.attribute("DisplayScale"), appPrefs.displayPrefs.displayScale) * 72) / 72.0;
 			appPrefs.displayPrefs.showVerifierWarningsOnCanvas = static_cast<bool>(dc.attribute("ShowVerifierWarningsOnCanvas", "1").toInt());
 			appPrefs.displayPrefs.showAutosaveClockOnCanvas = static_cast<bool>(dc.attribute("ShowAutosaveClockOnCanvas", "0").toInt());
 			appPrefs.displayPrefs.showToolTips = static_cast<bool>(dc.attribute("ToolTips", "1").toInt());
@@ -2164,8 +2160,8 @@ bool PrefsManager::readPref(const QString& filePath)
 			appPrefs.guidesPrefs.rulersShown = static_cast<bool>(dc.attribute("ShowRulers", "1").toInt());
 			appPrefs.guidesPrefs.showBleed = static_cast<bool>(dc.attribute("ShowBleed", "1").toInt());
 			appPrefs.guidesPrefs.rulerMode = static_cast<bool>(dc.attribute("RulerMode", "1").toInt());
-			appPrefs.guidesPrefs.minorGridSpacing  = ScCLocale::toDoubleC(dc.attribute("MinorGridSpacing"), 20.0);
-			appPrefs.guidesPrefs.majorGridSpacing  = ScCLocale::toDoubleC(dc.attribute("MajorGridSpacing"), 100.0);
+			appPrefs.guidesPrefs.minorGridSpacing = ScCLocale::toDoubleC(dc.attribute("MinorGridSpacing"), 20.0);
+			appPrefs.guidesPrefs.majorGridSpacing = ScCLocale::toDoubleC(dc.attribute("MajorGridSpacing"), 100.0);
 			appPrefs.guidesPrefs.minorGridColor = QColor(dc.attribute("MinorGridColor"));
 			appPrefs.guidesPrefs.majorGridColor = QColor(dc.attribute("MajorGridColor"));
 			if (dc.hasAttribute("GuidePlacement"))
@@ -2203,17 +2199,17 @@ bool PrefsManager::readPref(const QString& filePath)
 			if (dc.hasAttribute("BaselineGridColor"))
 				appPrefs.guidesPrefs.baselineGridColor = QColor(dc.attribute("BaselineGridColor", "#c0c0c0"));
 			appPrefs.guidesPrefs.marginColor = QColor(dc.attribute("MarginColor", "#0000ff"));
-			appPrefs.guidesPrefs.valueBaselineGrid   = ScCLocale::toDoubleC(dc.attribute("BaselineGridDistance"), 12.0);
-			appPrefs.guidesPrefs.offsetBaselineGrid  = ScCLocale::toDoubleC(dc.attribute("BaselineGridOffset"), 0.0);
+			appPrefs.guidesPrefs.valueBaselineGrid = ScCLocale::toDoubleC(dc.attribute("BaselineGridDistance"), 12.0);
+			appPrefs.guidesPrefs.offsetBaselineGrid = ScCLocale::toDoubleC(dc.attribute("BaselineGridOffset"), 0.0);
 		}
 		if (dc.tagName() == "StoryEditor")
 		{
-			appPrefs.storyEditorPrefs.guiFont  = dc.attribute("Font", "");
+			appPrefs.storyEditorPrefs.guiFont = dc.attribute("Font", "");
 			if (dc.hasAttribute("FontColorBackground"))
 			{
 				QString colorName = dc.attribute("FontColorBackground");
-				if (QColor::isValidColorName(colorName))
-					appPrefs.storyEditorPrefs.guiFontColorBackground  = QColor(colorName);
+				if (QColor(colorName).isValid())
+					appPrefs.storyEditorPrefs.guiFontColorBackground = QColor(colorName);
 			}
 			appPrefs.storyEditorPrefs.smartTextSelection = static_cast<bool>(dc.attribute("SmartTextSelection", "0").toInt());
 		}
@@ -2223,7 +2219,7 @@ bool PrefsManager::readPref(const QString& filePath)
 			appPrefs.typoPrefs.scalingSuperScript = dc.attribute("SuperScriptScaling").toInt();
 			appPrefs.typoPrefs.valueSubScript = dc.attribute("SubScriptDistance").toInt();
 			appPrefs.typoPrefs.scalingSubScript = dc.attribute("SubScriptScaling").toInt();
-			appPrefs.typoPrefs.valueSmallCaps  = dc.attribute("SmallCapsScaling").toInt();
+			appPrefs.typoPrefs.valueSmallCaps = dc.attribute("SmallCapsScaling").toInt();
 			appPrefs.typoPrefs.autoLineSpacing = dc.valueAsInt("AutomaticLineSpacing", 1, 500, 100);
 			double ulp = ScCLocale::toDoubleC(dc.attribute("UnderlineDistance"), -1.0);
 			if (ulp != -1)
@@ -2269,22 +2265,22 @@ bool PrefsManager::readPref(const QString& filePath)
 			appPrefs.itemToolPrefs.textShade = dc.attribute("TextColorShade", "100").toInt();
 			appPrefs.itemToolPrefs.textStrokeShade = dc.attribute("TextStrokeColorShade", "100").toInt();
 			appPrefs.itemToolPrefs.textColumns = dc.attribute("TextColumnCount", "1").toInt();
-			appPrefs.itemToolPrefs.textColumnGap  = ScCLocale::toDoubleC(dc.attribute("TextColumnGap"), 0.0);
+			appPrefs.itemToolPrefs.textColumnGap = ScCLocale::toDoubleC(dc.attribute("TextColumnGap"), 0.0);
 			appPrefs.itemToolPrefs.textTabFillChar = dc.attribute("TabFillCharacter", "");
-			appPrefs.itemToolPrefs.textTabWidth   = ScCLocale::toDoubleC(dc.attribute("TextTabWidth"), 36.0);
+			appPrefs.itemToolPrefs.textTabWidth = ScCLocale::toDoubleC(dc.attribute("TextTabWidth"), 36.0);
 			appPrefs.itemToolPrefs.textDistances.setTop(ScCLocale::toDoubleC(dc.attribute("TextDistanceTop"), 0.0));
 			appPrefs.itemToolPrefs.textDistances.setBottom(ScCLocale::toDoubleC(dc.attribute("TextDistanceBottom"), 0.0));
 			appPrefs.itemToolPrefs.textDistances.setLeft(ScCLocale::toDoubleC(dc.attribute("TextDistanceLeft"), 0.0));
 			appPrefs.itemToolPrefs.textDistances.setRight(ScCLocale::toDoubleC(dc.attribute("TextDistanceRight"), 0.0));
-			appPrefs.itemToolPrefs.firstLineOffset = (FirstLineOffsetPolicy) dc.attribute("FirstLineOffset", "1").toInt(); // Default to FLOPFontAscent
+			appPrefs.itemToolPrefs.firstLineOffset = (FirstLineOffsetPolicy)dc.attribute("FirstLineOffset", "1").toInt(); // Default to FLOPFontAscent
 			appPrefs.itemToolPrefs.firstLineOffset = qMax(FLOPRealGlyphHeight, qMin(appPrefs.itemToolPrefs.firstLineOffset, FLOPBaselineGrid));
 			appPrefs.itemToolPrefs.shapeLineStyle = dc.attribute("ShapeLineStyle").toInt();
 			appPrefs.itemToolPrefs.lineStyle = dc.attribute("LineStyle").toInt();
-			appPrefs.itemToolPrefs.shapeLineWidth	 = ScCLocale::toDoubleC(dc.attribute("ShapeLineWidth"), 1.0);
+			appPrefs.itemToolPrefs.shapeLineWidth = ScCLocale::toDoubleC(dc.attribute("ShapeLineWidth"), 1.0);
 			appPrefs.itemToolPrefs.lineWidth = ScCLocale::toDoubleC(dc.attribute("LineWidth"), 1.0);
 			appPrefs.itemToolPrefs.shapeLineColorShade = dc.attribute("ShapeLineColorShade").toInt();
 			appPrefs.itemToolPrefs.lineColorShade = dc.attribute("LineColorShade").toInt();
-			appPrefs.itemToolPrefs.shapeFillColorShade  = dc.attribute("ShapeFillColorShade").toInt();
+			appPrefs.itemToolPrefs.shapeFillColorShade = dc.attribute("ShapeFillColorShade").toInt();
 			appPrefs.itemToolPrefs.imageFillColor = dc.attribute("ImageFillColor", CommonStrings::None);
 			appPrefs.itemToolPrefs.imageFillColorShade = dc.attribute("ImageFillColorShade", "100").toInt();
 			appPrefs.itemToolPrefs.imageStrokeColor = dc.attribute("ImageStrokeColor", CommonStrings::None);
@@ -2301,9 +2297,9 @@ bool PrefsManager::readPref(const QString& filePath)
 			appPrefs.itemToolPrefs.polyInnerRot = ScCLocale::toDoubleC(dc.attribute("PolygonInnerRotation"), 0.0);
 			appPrefs.itemToolPrefs.polyCurvature = ScCLocale::toDoubleC(dc.attribute("PolygonCurvature"), 0.0);
 			appPrefs.itemToolPrefs.polyOuterCurvature = ScCLocale::toDoubleC(dc.attribute("PolygonOuterCurvature"), 0.0);
-			appPrefs.itemToolPrefs.polyUseFactor  = static_cast<bool>(dc.attribute("PolygonUseFactor", "0").toInt());
+			appPrefs.itemToolPrefs.polyUseFactor = static_cast<bool>(dc.attribute("PolygonUseFactor", "0").toInt());
 			appPrefs.itemToolPrefs.lineStartArrow = dc.attribute("LineStartArrow", "0").toInt();
-			appPrefs.itemToolPrefs.lineEndArrow   = dc.attribute("LineEndArrow", "0").toInt();
+			appPrefs.itemToolPrefs.lineEndArrow = dc.attribute("LineEndArrow", "0").toInt();
 			appPrefs.itemToolPrefs.arcStartAngle = ScCLocale::toDoubleC(dc.attribute("ArcStartAngle"), 30.0);
 			appPrefs.itemToolPrefs.arcSweepAngle = ScCLocale::toDoubleC(dc.attribute("ArcSweepAngle"), 300.0);
 			appPrefs.itemToolPrefs.spiralStartAngle = ScCLocale::toDoubleC(dc.attribute("SpiralStartAngle"), 0.0);
@@ -2325,14 +2321,14 @@ bool PrefsManager::readPref(const QString& filePath)
 					newFont = tmpf;
 				if (!newFont.isEmpty())
 					appPrefs.itemToolPrefs.textFont = newFont;
-				appPrefs.itemToolPrefs.textSize = qRound( ScCLocale::toDoubleC(dc.attribute("FontSize"), 12.0) * 10.0 );
+				appPrefs.itemToolPrefs.textSize = qRound(ScCLocale::toDoubleC(dc.attribute("FontSize"), 12.0) * 10.0);
 			}
 		}
 
 		if (dc.tagName() == "OperatorTools")
 		{
-			appPrefs.opToolPrefs.magMin  = dc.attribute("MinimumMagnification", "1").toInt();
-			appPrefs.opToolPrefs.magMax  = dc.attribute("MaximumMagnification", "32000").toInt();
+			appPrefs.opToolPrefs.magMin = dc.attribute("MinimumMagnification", "1").toInt();
+			appPrefs.opToolPrefs.magMax = dc.attribute("MaximumMagnification", "32000").toInt();
 			appPrefs.opToolPrefs.magStep = dc.attribute("MagnificationStep", "25").toInt();
 			if (appPrefs.opToolPrefs.magStep < 0)
 				appPrefs.opToolPrefs.magStep = 25;
@@ -2357,14 +2353,14 @@ bool PrefsManager::readPref(const QString& filePath)
 #endif
 			if (QGuiApplication::screens().count() == 1)
 			{
-				if (appPrefs.uiPrefs.mainWinSettings.xPosition < minX )
+				if (appPrefs.uiPrefs.mainWinSettings.xPosition < minX)
 					appPrefs.uiPrefs.mainWinSettings.xPosition = minX;
-				if (appPrefs.uiPrefs.mainWinSettings.yPosition <  minY)
+				if (appPrefs.uiPrefs.mainWinSettings.yPosition < minY)
 					appPrefs.uiPrefs.mainWinSettings.yPosition = minY;
 			}
 			int minWidth = 0;
 			int minHeight = 0;
-			const QScreen* s = QGuiApplication::screens().at(qMin(appPrefs.uiPrefs.mainWinSettings.screenNumber, QGuiApplication::screens().count() - 1));
+			const QScreen *s = QGuiApplication::screens().at(qMin(appPrefs.uiPrefs.mainWinSettings.screenNumber, QGuiApplication::screens().count() - 1));
 			int maxWidth = s->availableSize().width();
 			int maxHeight = s->availableSize().height();
 			if (appPrefs.uiPrefs.mainWinSettings.width > maxWidth)
@@ -2439,7 +2435,7 @@ bool PrefsManager::readPref(const QString& filePath)
 				if ((newPageSets.count() == appPrefs.docSetupPrefs.pagePositioning) && ((appPrefs.displayPrefs.pageGapHorizontal < 0) && (appPrefs.displayPrefs.pageGapVertical < 0)))
 				{
 					appPrefs.displayPrefs.pageGapHorizontal = ScCLocale::toDoubleC(pgsAttr.attribute("GapHorizontal"), 0.0);
-					appPrefs.displayPrefs.pageGapVertical   = ScCLocale::toDoubleC(pgsAttr.attribute("GapBelow"), 40.0);
+					appPrefs.displayPrefs.pageGapVertical = ScCLocale::toDoubleC(pgsAttr.attribute("GapBelow"), 40.0);
 				}
 			}
 			if (!newPageSets.isEmpty())
@@ -2459,8 +2455,8 @@ bool PrefsManager::readPref(const QString& filePath)
 			appPrefs.colorPrefs.DCMSset.DefaultImageCMYKProfile = dc.attribute("DefaultImageCMYKProfile", "");
 			appPrefs.colorPrefs.DCMSset.DefaultSolidColorRGBProfile = dc.attribute("DefaultSolidColorRGBProfile", "");
 			appPrefs.colorPrefs.DCMSset.DefaultSolidColorCMYKProfile = dc.attribute("DefaultSolorColorCMYKProfile", "");
-			appPrefs.colorPrefs.DCMSset.DefaultIntentColors = (eRenderIntent) dc.attribute("DefaultIntentColors", "1").toInt();
-			appPrefs.colorPrefs.DCMSset.DefaultIntentImages = (eRenderIntent) dc.attribute("DefaultIntentImages", "0").toInt();
+			appPrefs.colorPrefs.DCMSset.DefaultIntentColors = (eRenderIntent)dc.attribute("DefaultIntentColors", "1").toInt();
+			appPrefs.colorPrefs.DCMSset.DefaultIntentImages = (eRenderIntent)dc.attribute("DefaultIntentImages", "0").toInt();
 		}
 		if (dc.tagName() == "Shortcut")
 		{
@@ -2475,11 +2471,11 @@ bool PrefsManager::readPref(const QString& filePath)
 			appPrefs.verifierPrefs.curCheckProfile = dc.attribute("CurrentProfile", CommonStrings::PDF_1_4);
 			appPrefs.verifierPrefs.showPagesWithoutErrors = static_cast<bool>(dc.attribute("ShowPagesWithoutErrors", "0").toInt());
 			appPrefs.verifierPrefs.showNonPrintingLayerErrors = static_cast<bool>(dc.attribute("ShowNonPrintingLayerErrors", "0").toInt());
-			//#2516 work around old values until people won't have them anymore, not that these
-			//translated strings should be going into prefs anyway!
+			// #2516 work around old values until people won't have them anymore, not that these
+			// translated strings should be going into prefs anyway!
 			if ((appPrefs.verifierPrefs.curCheckProfile == tr("PostScript")) ||
 				((appPrefs.verifierPrefs.curCheckProfile == tr("Postscript")) ||
-				(appPrefs.verifierPrefs.curCheckProfile == "Postscript")))
+				 (appPrefs.verifierPrefs.curCheckProfile == "Postscript")))
 			{
 				appPrefs.verifierPrefs.curCheckProfile = CommonStrings::PostScript;
 			}
@@ -2487,7 +2483,7 @@ bool PrefsManager::readPref(const QString& filePath)
 		if (dc.tagName() == "VerifierProfile")
 		{
 			QString name = dc.attribute("Name");
-			if ((name == tr("PostScript")) ||  (name == tr("Postscript")) || (name == "Postscript"))
+			if ((name == tr("PostScript")) || (name == tr("Postscript")) || (name == "Postscript"))
 				name = CommonStrings::PostScript;
 			struct CheckerPrefs checkerSettings;
 			checkerSettings.ignoreErrors = static_cast<bool>(dc.attribute("IgnoreErrors", "0").toInt());
@@ -2583,8 +2579,8 @@ bool PrefsManager::readPref(const QString& filePath)
 			for (int i = 0; i < configNodes.size(); ++i)
 			{
 				QString confFile = configNodes.at(i).toElement().attribute("file", "");
-				QString command  = configNodes.at(i).toElement().attribute("command", "");
-				bool configExists = !confFile.isEmpty() && (QFile::exists(confFile) || QFile::exists(latexBase+confFile));
+				QString command = configNodes.at(i).toElement().attribute("command", "");
+				bool configExists = !confFile.isEmpty() && (QFile::exists(confFile) || QFile::exists(latexBase + confFile));
 				if (configExists)
 				{
 					if (!configs.contains(confFile))
@@ -2640,14 +2636,14 @@ bool PrefsManager::readPref(const QString& filePath)
 			QString tmpf(dc.attribute("Name"));
 			if (!tmpf.isEmpty() && appPrefs.fontPrefs.AvailFonts.contains(tmpf))
 			{
-				ScFace& face(appPrefs.fontPrefs.AvailFonts[tmpf]);
+				ScFace &face(appPrefs.fontPrefs.AvailFonts[tmpf]);
 				face.embedPs(static_cast<bool>(dc.attribute("Embed").toInt()));
 				face.usable(face.usable() && static_cast<bool>(dc.attribute("Use", "1").toInt()));
 				face.subset(static_cast<bool>(dc.attribute("Subset", "0").toInt()));
 			}
 		}
 		if (dc.tagName() == "Substitute")
-		  appPrefs.fontPrefs.GFontSub[dc.attribute("Name")] = dc.attribute("Replace");
+			appPrefs.fontPrefs.GFontSub[dc.attribute("Name")] = dc.attribute("Replace");
 		if (dc.tagName() == "DefaultColorSet")
 		{
 			appPrefs.colorPrefs.DColorSet = dc.attribute("Name");
@@ -2672,9 +2668,9 @@ bool PrefsManager::readPref(const QString& filePath)
 			appPrefs.pdfPrefs.Articles = static_cast<bool>(dc.attribute("Articles").toInt());
 			appPrefs.pdfPrefs.Thumbnails = static_cast<bool>(dc.attribute("Thumbnails").toInt());
 			appPrefs.pdfPrefs.Compress = static_cast<bool>(dc.attribute("Compress").toInt());
-			appPrefs.pdfPrefs.CompressMethod = (PDFOptions::PDFCompression) dc.attribute("CompressMethod", "0").toInt();
+			appPrefs.pdfPrefs.CompressMethod = (PDFOptions::PDFCompression)dc.attribute("CompressMethod", "0").toInt();
 			appPrefs.pdfPrefs.Quality = dc.attribute("Quality", "0").toInt();
-			appPrefs.pdfPrefs.embedPDF  = dc.attribute("EmbedPDF", "0").toInt();
+			appPrefs.pdfPrefs.embedPDF = dc.attribute("EmbedPDF", "0").toInt();
 			appPrefs.pdfPrefs.RecalcPic = static_cast<bool>(dc.attribute("RecalcPic").toInt());
 			appPrefs.pdfPrefs.Bookmarks = static_cast<bool>(dc.attribute("Bookmarks").toInt());
 			appPrefs.pdfPrefs.MirrorH = static_cast<bool>(dc.attribute("MirrorPagesHorizontal").toInt());
@@ -2683,11 +2679,11 @@ bool PrefsManager::readPref(const QString& filePath)
 			appPrefs.pdfPrefs.RotateDeg = dc.attribute("RotateDeg", "0").toInt();
 			appPrefs.pdfPrefs.PresentMode = static_cast<bool>(dc.attribute("PresentMode").toInt());
 			appPrefs.pdfPrefs.PicRes = dc.attribute("PicRes").toInt();
-			appPrefs.pdfPrefs.Version = (PDFVersion::Version) dc.attribute("Version").toInt();
+			appPrefs.pdfPrefs.Version = (PDFVersion::Version)dc.attribute("Version").toInt();
 			appPrefs.pdfPrefs.Resolution = dc.attribute("Resolution").toInt();
 			appPrefs.pdfPrefs.Binding = dc.attribute("Binding").toInt();
 			appPrefs.pdfPrefs.fileName = "";
-			appPrefs.pdfPrefs.FontEmbedding = (PDFOptions::PDFFontEmbedding)  dc.attribute("FontEmbedding", "0").toInt();
+			appPrefs.pdfPrefs.FontEmbedding = (PDFOptions::PDFFontEmbedding)dc.attribute("FontEmbedding", "0").toInt();
 			appPrefs.pdfPrefs.isGrayscale = static_cast<bool>(dc.attribute("Grayscale", "0").toInt());
 			appPrefs.pdfPrefs.UseRGB = static_cast<bool>(dc.attribute("RGBMode", "0").toInt());
 			appPrefs.pdfPrefs.UseProfiles = static_cast<bool>(dc.attribute("UseProfiles", "0").toInt());
@@ -2710,9 +2706,9 @@ bool PrefsManager::readPref(const QString& filePath)
 			appPrefs.pdfPrefs.docInfoMarks = static_cast<bool>(dc.attribute("DocInfoMarks", "0").toInt());
 			appPrefs.pdfPrefs.markLength = ScCLocale::toDoubleC(dc.attribute("MarkLength"), 20.0);
 			appPrefs.pdfPrefs.markOffset = ScCLocale::toDoubleC(dc.attribute("MarkOffset"), 0.0);
-			appPrefs.pdfPrefs.EmbeddedI  = static_cast<bool>(dc.attribute("ImagePr", "0").toInt());
-			appPrefs.pdfPrefs.PassOwner  = dc.attribute("PassOwner", "");
-			appPrefs.pdfPrefs.PassUser   = dc.attribute("PassUser", "");
+			appPrefs.pdfPrefs.EmbeddedI = static_cast<bool>(dc.attribute("ImagePr", "0").toInt());
+			appPrefs.pdfPrefs.PassOwner = dc.attribute("PassOwner", "");
+			appPrefs.pdfPrefs.PassUser = dc.attribute("PassUser", "");
 			appPrefs.pdfPrefs.Permissions = dc.attribute("Permissions", "-4").toInt();
 			appPrefs.pdfPrefs.Encrypt = static_cast<bool>(dc.attribute("Encrypt", "0").toInt());
 			appPrefs.pdfPrefs.useLayers = static_cast<bool>(dc.attribute("UseLayers", "0").toInt());
@@ -2779,7 +2775,7 @@ bool PrefsManager::readPref(const QString& filePath)
 					ToCSetup tocsetup;
 					tocsetup.name = tocElem.attribute("Name");
 					tocsetup.tocSource = tocElem.attribute("ToCSource");
-					//Up to 1.6/1.7, only Attributes were used for TOCs
+					// Up to 1.6/1.7, only Attributes were used for TOCs
 					if (tocsetup.tocSource.isEmpty())
 						tocsetup.tocSource = "Attribute";
 					tocsetup.itemAttrName = tocElem.attribute("ItemAttributeName");
@@ -2814,7 +2810,7 @@ bool PrefsManager::readPref(const QString& filePath)
 			appPrefs.activePageSizes = QString(dc.attribute("Names", "")).split(separator);
 
 			// check if page sizes existing
-			for (const auto& item : std::as_const(appPrefs.activePageSizes))
+			for (const auto &item : std::as_const(appPrefs.activePageSizes))
 			{
 				PageSize ps(item);
 				if (ps.name() != CommonStrings::customPageSize)
@@ -2822,7 +2818,6 @@ bool PrefsManager::readPref(const QString& filePath)
 			}
 
 			appPrefs.activePageSizes = (checkedPageSizes.count() == 0) ? PageSize::defaultSizesList() : checkedPageSizes;
-
 		}
 		// experimental features
 		if (dc.tagName() == "ExperimentalFeatures")
@@ -2891,7 +2886,7 @@ bool PrefsManager::readPref(const QString& filePath)
 	}
 	// Some sanity checks
 	appPrefs.colorPrefs.DColors.ensureDefaultColors();
-	if ((appPrefs.docSetupPrefs.pagePositioning  < 0) || (appPrefs.docSetupPrefs.pagePositioning >= appPrefs.pageSets.count()))
+	if ((appPrefs.docSetupPrefs.pagePositioning < 0) || (appPrefs.docSetupPrefs.pagePositioning >= appPrefs.pageSets.count()))
 		appPrefs.docSetupPrefs.pagePositioning = 0;
 	if ((appPrefs.docSetupPrefs.docUnitIndex < UNITMIN) || (appPrefs.docSetupPrefs.docUnitIndex > UNITMAX))
 		appPrefs.docSetupPrefs.docUnitIndex = int(SC_POINTS);
@@ -2901,7 +2896,7 @@ bool PrefsManager::readPref(const QString& filePath)
 	return true;
 }
 
-void PrefsManager::initDefaultCheckerPrefs(CheckerPrefsList& cp)
+void PrefsManager::initDefaultCheckerPrefs(CheckerPrefsList &cp)
 {
 	struct CheckerPrefs checkerSettings;
 	checkerSettings.ignoreErrors = false;
@@ -2927,33 +2922,33 @@ void PrefsManager::initDefaultCheckerPrefs(CheckerPrefsList& cp)
 	checkerSettings.checkAppliedMasterDifferentSide = true;
 	checkerSettings.checkEmptyTextFrames = true;
 	checkerSettings.checkImageHasProgressiveEncoding = true;
-	//TODO Stop translating these into settings!!!!!!!!!
+	// TODO Stop translating these into settings!!!!!!!!!
 	cp.insert(CommonStrings::PostScript, checkerSettings);
 	checkerSettings.checkFontNotEmbedded = true;
 	checkerSettings.checkFontIsOpenType = true;
-	cp.insert(CommonStrings::PDF_1_3   , checkerSettings);
+	cp.insert(CommonStrings::PDF_1_3, checkerSettings);
 	checkerSettings.checkTransparency = false;
-	cp.insert(CommonStrings::PDF_1_4   , checkerSettings);
-	cp.insert(CommonStrings::PDF_1_5   , checkerSettings);
+	cp.insert(CommonStrings::PDF_1_4, checkerSettings);
+	cp.insert(CommonStrings::PDF_1_5, checkerSettings);
 	checkerSettings.checkFontIsOpenType = false;
-	cp.insert(CommonStrings::PDF_1_6   , checkerSettings);
+	cp.insert(CommonStrings::PDF_1_6, checkerSettings);
 	checkerSettings.checkFontIsOpenType = true;
 	checkerSettings.checkTransparency = true;
 	checkerSettings.checkAnnotations = true;
 	checkerSettings.minResolution = 144.0;
 	checkerSettings.checkDeviceColorsAndOutputIntent = true;
-	cp.insert(CommonStrings::PDF_X3	, checkerSettings);
+	cp.insert(CommonStrings::PDF_X3, checkerSettings);
 	checkerSettings.checkNotCMYKOrSpot = true;
 	checkerSettings.checkDeviceColorsAndOutputIntent = false;
-	cp.insert(CommonStrings::PDF_X1a	, checkerSettings);
+	cp.insert(CommonStrings::PDF_X1a, checkerSettings);
 	checkerSettings.checkNotCMYKOrSpot = false;
 	checkerSettings.checkDeviceColorsAndOutputIntent = true;
 	checkerSettings.checkTransparency = false;
 	checkerSettings.checkFontIsOpenType = false;
-	cp.insert(CommonStrings::PDF_X4	, checkerSettings);
+	cp.insert(CommonStrings::PDF_X4, checkerSettings);
 }
 
-void PrefsManager::insertMissingCheckerProfiles(CheckerPrefsList& cp)
+void PrefsManager::insertMissingCheckerProfiles(CheckerPrefsList &cp)
 {
 	CheckerPrefsList defaultList;
 	initDefaultCheckerPrefs(defaultList);
@@ -2961,14 +2956,14 @@ void PrefsManager::insertMissingCheckerProfiles(CheckerPrefsList& cp)
 	CheckerPrefsList::const_iterator it = defaultList.constBegin();
 	for (; it != defaultList.constEnd(); ++it)
 	{
-		const QString& name = it.key();
+		const QString &name = it.key();
 		if (cp.contains(name))
 			continue;
 		cp.insert(name, it.value());
 	}
 }
 
-const QString & PrefsManager::lastError() const
+const QString &PrefsManager::lastError() const
 {
 	return m_lastError;
 }
@@ -2978,13 +2973,14 @@ const QString & PrefsManager::lastError() const
 void PrefsManager::alertSavePrefsFailed() const
 {
 	ScMessageBox::critical(ScCore->primaryMainWindow(), tr("Error Writing Preferences"),
-			"<qt>" +
-			tr("Scribus was not able to save its preferences:<br>"
-			   "%1<br>"
-			   "Please check file and directory permissions and "
-			   "available disk space.", "scribus app error")
-			   .arg(lastError())
-			+ "</qt>");
+						   "<qt>" +
+							   tr("Scribus was not able to save its preferences:<br>"
+								  "%1<br>"
+								  "Please check file and directory permissions and "
+								  "available disk space.",
+								  "scribus app error")
+								   .arg(lastError()) +
+							   "</qt>");
 }
 
 // It's hard to say whether this should be here and called from readPrefs, or
@@ -2995,16 +2991,14 @@ void PrefsManager::alertLoadPrefsFailed() const
 	if (splashShowing)
 		ScCore->showSplash(false);
 	ScMessageBox::critical(ScCore->primaryMainWindow(), tr("Error Loading Preferences"),
-			"<qt>" +
-			tr("Scribus was not able to load its preferences:<br>"
-			   "%1<br>"
-			   "Default settings will be loaded.")
-			   .arg(lastError())
-			+ "</qt>");
+						   "<qt>" +
+							   tr("Scribus was not able to load its preferences:<br>"
+								  "%1<br>"
+								  "Default settings will be loaded.")
+								   .arg(lastError()) +
+							   "</qt>");
 	ScCore->showSplash(splashShowing);
 }
-
-
 
 void PrefsManager::languageChange()
 {
@@ -3027,4 +3021,3 @@ void PrefsManager::languageChange()
 	if (appPrefs.itemToolPrefs.imageStrokeColor == CommonStrings::tr_NoneColor)
 		appPrefs.itemToolPrefs.imageStrokeColor = CommonStrings::None;
 }
-

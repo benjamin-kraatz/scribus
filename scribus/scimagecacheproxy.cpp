@@ -10,13 +10,13 @@ for which a new license (GPL+exception) is in place.
 ***************************************************************************/
 
 /***************************************************************************
-*                                                                         *
-*   This program is free software; you can redistribute it and/or modify  *
-*   it under the terms of the GNU General Public License as published by  *
-*   the Free Software Foundation; either version 2 of the License, or     *
-*   (at your option) any later version.                                   *
-*                                                                         *
-***************************************************************************/
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
 
 #include <QByteArray>
 #include <QByteArrayView>
@@ -46,13 +46,14 @@ for which a new license (GPL+exception) is in place.
 // but at the same time twice as fast to compute as SHA-1. Furthermore, it's 32 bits
 // shorter than SHA-1, making the filenames at least a little shorter.
 
-namespace {
+namespace
+{
 	const QString CACHEFILE_VERSION("1");
 	const QCryptographicHash::Algorithm HASH_ALGORITHM = QCryptographicHash::Md5;
 	const int CACHEDIR_LEVELS = 2;
-	const char * const imageFormat = "PNG";
+	const char *const imageFormat = "PNG";
 
-	inline QString absolutePath(const QString & fn)
+	inline QString absolutePath(const QString &fn)
 	{
 		return ScImageCacheManager::absolutePath(fn);
 	}
@@ -62,7 +63,7 @@ const QString ScImageCacheProxy::metaSuffix("xml");
 const QString ScImageCacheProxy::referenceSuffix("ref");
 const QString ScImageCacheProxy::imageSuffix("png");
 
-ScImageCacheProxy::ScImageCacheProxy(const QString & fn)
+ScImageCacheProxy::ScImageCacheProxy(const QString &fn)
 	: m_filename(fn), m_isEnabled(ScImageCacheManager::instance().enabled())
 {
 	if (!m_isEnabled)
@@ -84,44 +85,44 @@ ScImageCacheProxy::~ScImageCacheProxy()
 	// nothing :)
 }
 
-void ScImageCacheProxy::addMetadata(const QString & key, const QString & value)
+void ScImageCacheProxy::addMetadata(const QString &key, const QString &value)
 {
 	m_metadata[key] = value;
 }
 
-void ScImageCacheProxy::addModifier(const QString & key, const QString & value)
+void ScImageCacheProxy::addModifier(const QString &key, const QString &value)
 {
 	m_modifier[key] = value;
 	m_metanameCache.clear();
 }
 
-void ScImageCacheProxy::delModifier(const QString & key)
+void ScImageCacheProxy::delModifier(const QString &key)
 {
 	m_modifier.remove(key);
 	m_metanameCache.clear();
 }
 
-void ScImageCacheProxy::addInfo(const QString & key, const QString & value)
+void ScImageCacheProxy::addInfo(const QString &key, const QString &value)
 {
 	m_imginfo[key] = value;
 }
 
-QString ScImageCacheProxy::getInfo(const QString & key) const
+QString ScImageCacheProxy::getInfo(const QString &key) const
 {
 	return m_imginfo[key];
 }
 
-QString ScImageCacheProxy::imageFile(const QString & base)
+QString ScImageCacheProxy::imageFile(const QString &base)
 {
 	return base + "." + imageSuffix;
 }
 
-QString ScImageCacheProxy::referenceFile(const QString & base)
+QString ScImageCacheProxy::referenceFile(const QString &base)
 {
 	return base + "." + referenceSuffix;
 }
 
-QString ScImageCacheProxy::getBaseName(const QString & metafile)
+QString ScImageCacheProxy::getBaseName(const QString &metafile)
 {
 	QString base;
 	return loadMetadata(metafile, nullptr, nullptr, nullptr, &base) ? base : QString();
@@ -197,15 +198,19 @@ bool ScImageCacheProxy::loadMetadata(ScLockedFile *file, MetaMap *meta, MetaMap 
 		return false;
 	}
 
-	if (!baseFound) scDebug() << "base not found";
-	if (!metaFound) scDebug() << "meta not found";
-	if (!modFound) scDebug() << "mod not found";
-	if (!infoFound) scDebug() << "info not found";
+	if (!baseFound)
+		scDebug() << "base not found";
+	if (!metaFound)
+		scDebug() << "meta not found";
+	if (!modFound)
+		scDebug() << "mod not found";
+	if (!infoFound)
+		scDebug() << "info not found";
 
 	return baseFound && metaFound && modFound && infoFound;
 }
 
-bool ScImageCacheProxy::loadMetadata(const QString & fn, MetaMap *meta, MetaMap *mod, MetaMap *info, QString *base)
+bool ScImageCacheProxy::loadMetadata(const QString &fn, MetaMap *meta, MetaMap *mod, MetaMap *info, QString *base)
 {
 	ScLockedFileRO file(absolutePath(fn));
 	if (!file.open())
@@ -221,7 +226,7 @@ bool ScImageCacheProxy::loadMetadata(MetaMap *meta, MetaMap *mod, MetaMap *info,
 	return loadMetadata(metaName(), meta, mod, info, base);
 }
 
-void ScImageCacheProxy::saveMetadata(ScLockedFile *file, const MetaMap & meta, const MetaMap & mod, const MetaMap & info, const QString & base)
+void ScImageCacheProxy::saveMetadata(ScLockedFile *file, const MetaMap &meta, const MetaMap &mod, const MetaMap &info, const QString &base)
 {
 	QXmlStreamWriter xml(file->io());
 
@@ -250,8 +255,8 @@ bool ScImageCacheProxy::canUseCachedImage() const
 	if (!enabled())
 		return false;
 
-	MetaMap cmeta;  // cached metadata
-	MetaMap cmod;   // cached modifiers
+	MetaMap cmeta; // cached metadata
+	MetaMap cmod;  // cached modifiers
 	QString base;
 
 	if (m_metadata.isEmpty())
@@ -302,7 +307,7 @@ QString ScImageCacheProxy::addDirLevels(QString name)
 	return name;
 }
 
-QString ScImageCacheProxy::imageBaseName(const QImage & image) const
+QString ScImageCacheProxy::imageBaseName(const QImage &image) const
 {
 	if (!m_metadata.contains("size"))
 	{
@@ -313,12 +318,12 @@ QString ScImageCacheProxy::imageBaseName(const QImage & image) const
 	for (int i = 0; i < image.height(); i++)
 	{
 		QByteArrayView baView(image.scanLine(i), image.bytesPerLine());
-		hash.addData(baView);
+		hash.addData(baView.data(), baView.size());
 	}
 	return addDirLevels(hash.result().toHex()) + "-" + m_metadata["size"];
 }
 
-const QString & ScImageCacheProxy::metaName() const
+const QString &ScImageCacheProxy::metaName() const
 {
 	if (m_metanameCache.isEmpty())
 	{
@@ -352,7 +357,7 @@ bool ScImageCacheProxy::createCacheDir()
 	return true;
 }
 
-bool ScImageCacheProxy::load(QImage & image)
+bool ScImageCacheProxy::load(QImage &image)
 {
 	if (!enabled())
 		return false;
@@ -377,7 +382,7 @@ bool ScImageCacheProxy::load(QImage & image)
 	return true;
 }
 
-bool ScImageCacheProxy::save(const QImage & image)
+bool ScImageCacheProxy::save(const QImage &image)
 {
 	if (!enabled())
 		return false;
@@ -570,7 +575,7 @@ bool ScImageCacheProxy::save(const QImage & image)
 			return false;
 		}
 		int level = ScImageCacheManager::instance().compressionLevel();
-		level = level < 0 ? level : 10*(9 - level);
+		level = level < 0 ? level : 10 * (9 - level);
 		scDebug() << "compressing" << imageFormat << "image, quality =" << level;
 		if (!image.save(img.io(), imageFormat, level))
 		{
@@ -583,7 +588,7 @@ bool ScImageCacheProxy::save(const QImage & image)
 		scDebug() << "successfully stored" << m_filename << "in cache as" << img.name();
 	}
 
-	// Save the metadata. 
+	// Save the metadata.
 
 	saveMetadata(&meta, m_metadata, m_modifier, m_imginfo, base);
 	meta.commit();
@@ -595,7 +600,7 @@ bool ScImageCacheProxy::save(const QImage & image)
 	return true;
 }
 
-bool ScImageCacheProxy::loadRef(ScLockedFile *file, int & refcount)
+bool ScImageCacheProxy::loadRef(ScLockedFile *file, int &refcount)
 {
 	QXmlStreamReader xml(file->io());
 	bool refcountFound = false;
@@ -633,12 +638,12 @@ void ScImageCacheProxy::saveRef(ScLockedFile *file, int refcount)
 	xml.writeEndDocument();
 }
 
-bool ScImageCacheProxy::getRefCount(const QString & reffile, int & refcount)
+bool ScImageCacheProxy::getRefCount(const QString &reffile, int &refcount)
 {
 	return getRefCountAbs(absolutePath(reffile), refcount);
 }
 
-bool ScImageCacheProxy::getRefCountAbs(const QString & reffile, int & refcount)
+bool ScImageCacheProxy::getRefCountAbs(const QString &reffile, int &refcount)
 {
 	ScLockedFileRO ro(reffile);
 	if (!ro.open())
@@ -654,7 +659,7 @@ bool ScImageCacheProxy::getRefCountAbs(const QString & reffile, int & refcount)
 	return true;
 }
 
-bool ScImageCacheProxy::fixRefCount(const QString & reffile, int refcount)
+bool ScImageCacheProxy::fixRefCount(const QString &reffile, int refcount)
 {
 	ScLockedFileRW rw(absolutePath(reffile));
 	if (!rw.open())
@@ -666,7 +671,7 @@ bool ScImageCacheProxy::fixRefCount(const QString & reffile, int refcount)
 	return rw.commit();
 }
 
-bool ScImageCacheProxy::removeCacheEntry(const QString & metafile, bool haveMasterLock)
+bool ScImageCacheProxy::removeCacheEntry(const QString &metafile, bool haveMasterLock)
 {
 	ScImageCacheWriteAction action(haveMasterLock);
 
@@ -738,7 +743,7 @@ bool ScImageCacheProxy::refImage(ScLockedFile *file)
 	return file->commit();
 }
 
-bool ScImageCacheProxy::unrefImage(ScLockedFile *file, const QString & imageName)
+bool ScImageCacheProxy::unrefImage(ScLockedFile *file, const QString &imageName)
 {
 	int refcount = 0;
 
