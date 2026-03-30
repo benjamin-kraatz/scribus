@@ -86,6 +86,7 @@ jobs:
           QT_PREFIX="$(brew --prefix qt@6)"
           LIBPNG_PREFIX="$(brew --prefix libpng)"
           ICU4C_PREFIX="$(brew --prefix icu4c)"
+          INSTALL_PREFIX="$PWD/build/install"
 
           export PKG_CONFIG_PATH="$ICU4C_PREFIX/lib/pkgconfig:$QT_PREFIX/lib/pkgconfig:$LIBPNG_PREFIX/lib/pkgconfig:$BREW_PREFIX/lib/pkgconfig:${PKG_CONFIG_PATH:-}"
 
@@ -96,6 +97,7 @@ jobs:
             -DCMAKE_BUILD_TYPE=Release \
             -DCMAKE_C_COMPILER_LAUNCHER=ccache \
             -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
+            -DCMAKE_INSTALL_PREFIX="$INSTALL_PREFIX" \
             -DQT_PREFIX="$QT_PREFIX" \
             -DCMAKE_PREFIX_PATH="$QT_PREFIX/lib/cmake;$ICU4C_PREFIX;$BREW_PREFIX" \
             -DCMAKE_INCLUDE_PATH="$BREW_PREFIX/include;$LIBPNG_PREFIX/include;$LIBPNG_PREFIX/include/libpng16" \
@@ -109,67 +111,34 @@ jobs:
       - name: Build
         run: |
           cmake --build build --parallel
-          cmake --install build --config Release --prefix build/install
+          cmake --install build --config Release
           ccache -s || true
 
       - name: Create app bundle with macdeployqt
         run: |
           QT_PREFIX="$(brew --prefix qt@6)"
-          
-          # Create app bundle directory structure
-          mkdir -p Scribus.app/Contents/{MacOS,Resources}
-          
-          # Copy the executable
-          cp build/install/MacOS/Scribus* Scribus.app/Contents/MacOS/scribus || true
-          
-          # Get the actual executable name 
-          EXE_NAME=$(ls build/install/MacOS/ | head -1)
-          if [ -z "$EXE_NAME" ]; then
-            echo "No executable found in build/install/MacOS"
+          APP_PATH="$(find build/install -maxdepth 5 -type d -name '*.app' | head -n 1 || true)"
+
+          if [ -z "$APP_PATH" ]; then
+            echo "No .app bundle found under build/install"
             exit 1
           fi
-          
-          cp "build/install/MacOS/$EXE_NAME" "Scribus.app/Contents/MacOS/$EXE_NAME"
-          
-          # Create basic Info.plist
-          cat > Scribus.app/Contents/Info.plist << 'EOF'
-          <?xml version="1.0" encoding="UTF-8"?>
-          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-          <plist version="1.0">
-          <dict>
-              <key>CFBundleDevelopmentRegion</key>
-              <string>en</string>
-              <key>CFBundleExecutable</key>
-              <string>scribus</string>
-              <key>CFBundleIdentifier</key>
-              <string>org.scribus.Scribus</string>
-              <key>CFBundleInfoDictionaryVersion</key>
-              <string>6.0</string>
-              <key>CFBundleName</key>
-              <string>Scribus</string>
-              <key>CFBundlePackageType</key>
-              <string>APPL</string>
-              <key>CFBundleShortVersionString</key>
-              <string>1.7.0</string>
-              <key>CFBundleVersion</key>
-              <string>1</string>
-          </dict>
-          </plist>
-          EOF
-          
-          # Use macdeployqt to deploy Qt dependencies
-          "$QT_PREFIX/libexec/macdeployqt" Scribus.app -always-overwrite
+
+          echo "Using installed app bundle: $APP_PATH"
+          "$QT_PREFIX/libexec/macdeployqt" "$APP_PATH" -always-overwrite
+
+          rm -rf out/Scribus.app
+          mkdir -p out
+          cp -R "$APP_PATH" out/Scribus.app
 
       - name: Collect app bundle
         run: |
-          if [ ! -d "Scribus.app" ]; then
-            echo "Scribus.app not found"
+          if [ ! -d "out/Scribus.app" ]; then
+            echo "Scribus.app not found in out/"
             exit 1
           fi
 
           echo "App bundle ready: Scribus.app"
-          mkdir -p out
-          cp -R Scribus.app out/
           ditto -c -k --sequesterRsrc --keepParent "out/Scribus.app" "out/Scribus-macOS-app.zip"
 
       - name: Upload artifact
