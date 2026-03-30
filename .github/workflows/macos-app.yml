@@ -155,6 +155,10 @@ jobs:
             exit 1
           fi
 
+          # # Ad-hoc sign to make local execution smoother on downloaded artifacts
+          # codesign --force --deep --sign - --timestamp=none out/Scribus.app
+          # codesign --verify --deep --strict --verbose=2 out/Scribus.app
+
           echo "App bundle ready: Scribus.app"
           ditto -c -k --sequesterRsrc --keepParent "out/Scribus.app" "out/Scribus-macOS-app.zip"
 
