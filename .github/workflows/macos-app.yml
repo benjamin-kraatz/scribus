@@ -1,0 +1,86 @@
+name: Build macOS Scribus App
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - benn/learn-codebase
+    paths:
+      - '.github/workflows/macos-app.yml'
+      - 'CMakeLists.txt'
+      - 'CMakeLists_Dependencies.cmake'
+      - 'cmake/**'
+      - 'scribus/**'
+      - 'resources/**'
+
+jobs:
+  build-macos-app:
+    runs-on: macos-14
+    timeout-minutes: 120
+
+    env:
+      HOMEBREW_NO_AUTO_UPDATE: 1
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          brew install \
+            cmake \
+            ninja \
+            pkg-config \
+            qt@6 \
+            cairo \
+            freetype \
+            harfbuzz \
+            libxml2 \
+            libpng \
+            jpeg-turbo \
+            libtiff \
+            little-cms2 \
+            poppler \
+            podofo \
+            hunspell \
+            fontconfig \
+            boost
+
+      - name: Configure (Debug)
+        run: |
+          QT_PREFIX="$(brew --prefix qt@6)"
+          cmake -S . -B build -G Ninja \
+            -DCMAKE_BUILD_TYPE=Debug \
+            -DQT_PREFIX="$QT_PREFIX" \
+            -DCMAKE_PREFIX_PATH="$QT_PREFIX/lib/cmake" \
+            -DWANT_NOOSG=1 \
+            -DWANT_GRAPHICSMAGICK=0
+
+      - name: Build
+        run: cmake --build build --parallel
+
+      - name: Collect app bundle
+        run: |
+          APP_PATH=""
+          if [ -d "build/scribus/Scribus.app" ]; then
+            APP_PATH="build/scribus/Scribus.app"
+          else
+            APP_PATH="$(find build -maxdepth 6 -type d -name '*.app' | head -n 1 || true)"
+          fi
+
+          if [ -z "$APP_PATH" ]; then
+            echo "No .app bundle found in build output"
+            exit 1
+          fi
+
+          echo "App bundle: $APP_PATH"
+          mkdir -p out
+          cp -R "$APP_PATH" out/
+          ditto -c -k --sequesterRsrc --keepParent "out/$(basename "$APP_PATH")" "out/Scribus-macOS-app.zip"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Scribus-macOS-app
+          path: out/Scribus-macOS-app.zip
+          if-no-files-found: error
