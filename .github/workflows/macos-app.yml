@@ -118,14 +118,31 @@ jobs:
         run: |
           QT_PREFIX="$(brew --prefix qt@6)"
           APP_PATH="$(find build/install -maxdepth 5 -type d -name '*.app' | head -n 1 || true)"
+          MACDEPLOYQT=""
+
+          if [ -x "$QT_PREFIX/bin/macdeployqt" ]; then
+            MACDEPLOYQT="$QT_PREFIX/bin/macdeployqt"
+          elif [ -x "$QT_PREFIX/libexec/macdeployqt" ]; then
+            MACDEPLOYQT="$QT_PREFIX/libexec/macdeployqt"
+          else
+            MACDEPLOYQT="$(find "$QT_PREFIX" -type f -name macdeployqt | head -n 1 || true)"
+          fi
 
           if [ -z "$APP_PATH" ]; then
             echo "No .app bundle found under build/install"
             exit 1
           fi
 
+          if [ -z "$MACDEPLOYQT" ]; then
+            echo "macdeployqt not found under $QT_PREFIX"
+            echo "Qt prefix contents:"
+            find "$QT_PREFIX" -maxdepth 3 \( -type d -o -type f \) | sort | head -n 200
+            exit 1
+          fi
+
           echo "Using installed app bundle: $APP_PATH"
-          "$QT_PREFIX/libexec/macdeployqt" "$APP_PATH" -always-overwrite
+          echo "Using macdeployqt: $MACDEPLOYQT"
+          "$MACDEPLOYQT" "$APP_PATH" -always-overwrite
 
           rm -rf out/Scribus.app
           mkdir -p out
