@@ -17,6 +17,13 @@ find_path(poppler_cpp_INCLUDE_DIR
 	PATHS /usr/local/include /usr/include
 	)
 
+find_path(poppler_PRIVATE_INCLUDE_DIR
+	NAMES poppler-config.h
+	HINTS ${PKG_poppler_INCLUDE_DIRS} ${poppler_INCLUDE_DIRS}
+	PATHS /usr/local/include /usr/include
+	PATH_SUFFIXES poppler
+	)
+
 find_library(poppler_LIBRARY
 	NAMES libpoppler poppler
 	PATHS ${PKG_poppler_LIBRARIES} ${poppler_LIBRARY_DIRS} /usr/local/lib /usr/lib /usr/lib/${CMAKE_LIBRARY_ARCHITECTURE}
@@ -33,6 +40,10 @@ find_library(poppler_cpp_LIBRARY
 
 if (poppler_LIBRARY)
 	if (poppler_INCLUDE_DIR AND poppler_cpp_INCLUDE_DIR)
+		if (poppler_PRIVATE_INCLUDE_DIR)
+			list(APPEND poppler_INCLUDE_DIR ${poppler_PRIVATE_INCLUDE_DIR})
+		endif()
+		set(poppler_CPP_INCLUDE_DIR ${poppler_cpp_INCLUDE_DIR})
 		set( FOUND_POPPLER ON )
 		set( poppler_LIBRARIES ${poppler_LIBRARY} ${poppler_cpp_LIBRARY} )
 		set( poppler_INCLUDES ${poppler_INCLUDE_DIR} ${poppler_cpp_INCLUDE_DIR} )
