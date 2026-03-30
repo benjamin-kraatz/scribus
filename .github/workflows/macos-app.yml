@@ -25,39 +25,88 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Restore Homebrew download cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/Library/Caches/Homebrew
+          key: ${{ runner.os }}-homebrew-${{ hashFiles('.github/workflows/macos-app.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-homebrew-
+
+      - name: Restore ccache
+        uses: actions/cache@v4
+        with:
+          path: ~/.ccache
+          key: ${{ runner.os }}-ccache-${{ hashFiles('CMakeLists.txt', 'CMakeLists_Dependencies.cmake', '.github/workflows/macos-app.yml', 'scribus/**') }}
+          restore-keys: |
+            ${{ runner.os }}-ccache-
+
       - name: Install dependencies
         run: |
-          brew install \
-            cmake \
-            ninja \
-            pkg-config \
-            qt@6 \
-            cairo \
-            freetype \
-            harfbuzz \
-            libxml2 \
-            libpng \
-            jpeg-turbo \
-            libtiff \
-            little-cms2 \
-            poppler \
-            podofo \
-            hunspell \
-            fontconfig \
+          deps=(
+            cmake
+            ninja
+            pkg-config
+            ccache
+            qt@6
+            cairo
+            freetype
+            harfbuzz
+            libxml2
+            libpng
+            jpeg-turbo
+            libtiff
+            little-cms2
+            poppler
+            podofo
+            hunspell
+            fontconfig
             boost
+          )
+
+          missing=()
+          for dep in "${deps[@]}"; do
+            if ! brew list --versions "$dep" >/dev/null 2>&1; then
+              missing+=("$dep")
+            fi
+          done
+
+          if [ ${#missing[@]} -gt 0 ]; then
+            echo "Installing missing dependencies: ${missing[*]}"
+            brew install "${missing[@]}"
+          else
+            echo "All dependencies already present"
+          fi
 
       - name: Configure (Debug)
         run: |
+          BREW_PREFIX="$(brew --prefix)"
           QT_PREFIX="$(brew --prefix qt@6)"
+          LIBPNG_PREFIX="$(brew --prefix libpng)"
+
+          export PKG_CONFIG_PATH="$QT_PREFIX/lib/pkgconfig:$LIBPNG_PREFIX/lib/pkgconfig:$BREW_PREFIX/lib/pkgconfig:${PKG_CONFIG_PATH:-}"
+
+          ccache -M 2G || true
+          ccache -s || true
+
           cmake -S . -B build -G Ninja \
             -DCMAKE_BUILD_TYPE=Debug \
+            -DCMAKE_C_COMPILER_LAUNCHER=ccache \
+            -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
             -DQT_PREFIX="$QT_PREFIX" \
-            -DCMAKE_PREFIX_PATH="$QT_PREFIX/lib/cmake" \
+            -DCMAKE_PREFIX_PATH="$QT_PREFIX/lib/cmake;$BREW_PREFIX" \
+            -DCMAKE_INCLUDE_PATH="$BREW_PREFIX/include;$LIBPNG_PREFIX/include;$LIBPNG_PREFIX/include/libpng16" \
+            -DCMAKE_LIBRARY_PATH="$BREW_PREFIX/lib" \
+            -DPNG_PNG_INCLUDE_DIR="$LIBPNG_PREFIX/include/libpng16" \
+            -DPNG_LIBRARY="$LIBPNG_PREFIX/lib/libpng.dylib" \
             -DWANT_NOOSG=1 \
             -DWANT_GRAPHICSMAGICK=0
 
       - name: Build
-        run: cmake --build build --parallel
+        run: |
+          cmake --build build --parallel
+          ccache -s || true
 
       - name: Collect app bundle
         run: |
